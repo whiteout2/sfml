@@ -14,7 +14,7 @@ static int is_sorted(int* a, int size);
 static void shuffle(int* a, int size);
 
 
-void printArrayBar(int A[], int size);
+void printArrayBar(int A[], int size, int r);
 
 sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
 
@@ -24,7 +24,7 @@ void bogo_sort(int* a, int size) {
         
         shuffle(a, size);
 
-        printArrayBar(a, size);
+        printArrayBar(a, size, 0);
     }
 }
 
@@ -66,7 +66,7 @@ void CocktailSort(int a[], int n)
         for (int i = start; i < end; ++i) {
             if (a[i] > a[i + 1]) {
                 std::swap(a[i], a[i + 1]);
-                printArrayBar(a, n);
+                printArrayBar(a, n, i+1);
                 swapped = true;
             }
         }
@@ -88,7 +88,7 @@ void CocktailSort(int a[], int n)
         for (int i = end - 1; i >= start; --i) {
             if (a[i] > a[i + 1]) {
                 std::swap(a[i], a[i + 1]);
-                printArrayBar(a, n);
+                printArrayBar(a, n, i+1);
                 swapped = true;
             }
         }
@@ -101,7 +101,7 @@ void CocktailSort(int a[], int n)
 }
 
 
-void printArrayBar(int A[], int size)
+void printArrayBar(int A[], int size, int r)
 {
     window.clear();
     for (int i = 0; i < 1024; i++)
@@ -111,15 +111,16 @@ void printArrayBar(int A[], int size)
 
         rect.setSize(sf::Vector2f(1.0f, A[i] * 0.75f));
         rect.setPosition(i * (1024.0f / 768.0f) * 0.75f, 0);
-        rect.setFillColor(sf::Color::White);
+        //rect.setFillColor(sf::Color::White);
 
-        static int r = 0;
-        r++;
-        if (r>1023) r=0; 
+        // static int r = 0;
+        // r++;
+        // if (r>1023) r=0; 
 
         if (i == r)
         {
             rect.setFillColor(sf::Color::Red);
+            //rect.setSize(sf::Vector2f(33.0f, A[i] * 0.75f));
 
             // sound.setPitch(vrect[i].getSize().y*0.001f);
             //sound.setPitch(rect.getSize().y * 0.001f);
@@ -128,7 +129,7 @@ void printArrayBar(int A[], int size)
         window.draw(rect);
     }
     window.display();
-    //usleep(200000);
+    //usleep(2000);
 }
 
 int main()
