@@ -60,7 +60,7 @@ void CocktailSort(int a[], int n)
     int start = 0;
     int end = n - 1;
  
-    while (swapped) {
+    while (swapped && window.isOpen()) {
         // reset the swapped flag on entering
         // the loop, because it might be true from
         // a previous iteration.
@@ -123,7 +123,8 @@ void printArrayBar(int A[], int size, int r)
 
         rect.setSize(sf::Vector2f(1.0f, A[i] * 0.75f));
         //rect.setPosition(i * (1024.0f / 768.0f) * 0.75f, 0);
-        rect.setPosition(i * (1024.0f / 768.0f) * 0.75f, 768 - A[i]*0.75f);
+        //rect.setPosition(i * (1024.0f / 768.0f) * 0.75f, 768 - A[i]*0.75f);
+        rect.setPosition(i, 768 - A[i]*0.75f);
         //rect.setFillColor(sf::Color::White);
 
         // static int r = 0;
@@ -135,13 +136,14 @@ void printArrayBar(int A[], int size, int r)
             rect.setFillColor(sf::Color::Red);
 
             sound.setPitch(A[i] * 0.001f);
-            sound.play();
+            //sound.play();
         }
         window.draw(rect);
     }
     window.display();
     //usleep(2000);
 }
+
 
 int main()
 {
@@ -152,7 +154,7 @@ int main()
     //sf::RectangleShape rectangle(sf::Vector2f(1.0f, 200.0f));
     //rectangle.setFillColor(sf::Color::White);
 
-    std::vector<int> v(1024) ; // vector with 100 ints.
+    std::vector<int> v(1024); // vector with 100 ints.
     std::iota(std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
     //v[0] = 1023;
     //v[666] = 1023;
@@ -206,11 +208,16 @@ int main()
 
         //window.clear();
 
-        // NOTE: problem is we are in the game loop and have to do the sort loop as well
+        // NOTE: problem is we are in the game loop and have to do the sort loop as well.
+        // So sort loop becomes game loop and we draw from the sort loop.
+        // But now the window no longer closes correctly.
+        // TODO: make window close correctly
+        // DONE: put window.isOpen() check in CocktailSort() while loop 
+
         //bogo_sort(&v[0], 1024);
         CocktailSort(&v[0], 1024);
 
-        sound.stop(); 
+         
 
         //window.display();
     }
