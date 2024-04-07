@@ -236,7 +236,7 @@ int main()
         }
 
         //window.clear();
-        //
+        
 
         // NOTE: problem is we are in the game loop and have to do the sort loop as well.
         // So sort loop becomes game loop and we draw from the sort loop.
