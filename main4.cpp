@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -172,7 +173,7 @@ int main()
     //sf::RectangleShape rectangle(sf::Vector2f(1.0f, 200.0f));
     //rectangle.setFillColor(sf::Color::White);
 
-    std::vector<int> v(512); // vector with 100 ints.
+    std::vector<int> v(333); // vector with 100 ints.
     std::iota(std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
     //v[0] = 1023;
     //v[66] = 1023;
@@ -235,10 +236,14 @@ int main()
         //bogo_sort(&v[0], 1024);
         CocktailSort(&v[0], v.size());
 
-        //sound.stop();
+        sound.stop();
 
         // and again
-        std::shuffle(v.begin(), v.end(), rng);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            std::shuffle(v.begin(), v.end(), rng);
+        }
+        
 
         //window.display();
     }
