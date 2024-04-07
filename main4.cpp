@@ -16,8 +16,10 @@ static void shuffle(int* a, int size);
 
 void printArrayBar(int A[], int size, int r);
 
-sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
+//sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
+sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
 
+sf::RectangleShape rect;
 
 // sound
 sf::SoundBuffer buffer;
@@ -66,6 +68,13 @@ void CocktailSort(int a[], int n)
         // the loop, because it might be true from
         // a previous iteration.
         swapped = false;
+
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
  
         // loop from left to right same as
         // the bubble sort
@@ -109,23 +118,30 @@ void CocktailSort(int a[], int n)
 
 void printArrayBar(int A[], int size, int r)
 {
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-            window.close();
-    }
+    // sf::Event event;
+    // while (window.pollEvent(event))
+    // {
+    //     if (event.type == sf::Event::Closed)
+    //         window.close();
+    // }
 
     window.clear();
     for (int i = 0; i < size; i++)
     {
-        sf::RectangleShape rect;
+        //sf::RectangleShape rect;
         rect.setFillColor(sf::Color::White);
 
         //rect.setSize(sf::Vector2f(1.0f, A[i] * 0.75f));
         //rect.setPosition(i, 768 - A[i]*0.75f);
-        rect.setSize(sf::Vector2f(1024.0f/size, A[i] * 768.0f/size));
-        rect.setPosition(i*(1024.0f/size), 768 - A[i] * 768.0f/size);
+
+        //rect.setSize(sf::Vector2f(1024.0f/size, A[i] * 768.0f/size));
+        //rect.setPosition(i*(1024.0f/size), 768 - A[i] * 768.0f/size);
+
+        float x = window.getSize().x;
+        float y = window.getSize().y;
+
+        rect.setSize(sf::Vector2f(x/size, A[i] * y/size));
+        rect.setPosition(i*(x/size), y - A[i] * y/size);
 
         // static int r = 0;
         // r++;
@@ -135,13 +151,13 @@ void printArrayBar(int A[], int size, int r)
         {
             rect.setFillColor(sf::Color::Red);
 
-            sound.setPitch(A[i] * 0.001f);
+            sound.setPitch(A[i] * 0.01f);
             sound.play();
         }
         window.draw(rect);
     }
     window.display();
-    usleep(20000);
+    //usleep(20000);
 }
 
 
@@ -154,16 +170,16 @@ int main()
     //sf::RectangleShape rectangle(sf::Vector2f(1.0f, 200.0f));
     //rectangle.setFillColor(sf::Color::White);
 
-    std::vector<int> v(22); // vector with 100 ints.
+    std::vector<int> v(512); // vector with 100 ints.
     std::iota(std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
     //v[0] = 1023;
-    //v[666] = 1023;
+    //v[66] = 1023;
 
-    shuffle(&v[0], v.size());
+    //shuffle(&v[0], v.size());
 
 
-    //auto rng = std::default_random_engine {};
-    //std::shuffle(v.begin(), v.end(), rng); // buggy!!!
+    auto rng = std::default_random_engine {};
+    std::shuffle(v.begin(), v.end(), rng); // buggy!!!
     
 
 
