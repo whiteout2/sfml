@@ -19,6 +19,9 @@ void printArrayBar(int A[], int size, int r);
 //sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
 sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
 
+float x = window.getSize().x;
+float y = window.getSize().y;
+
 sf::RectangleShape rect;
 
 // sound
@@ -137,8 +140,7 @@ void printArrayBar(int A[], int size, int r)
         //rect.setSize(sf::Vector2f(1024.0f/size, A[i] * 768.0f/size));
         //rect.setPosition(i*(1024.0f/size), 768 - A[i] * 768.0f/size);
 
-        float x = window.getSize().x;
-        float y = window.getSize().y;
+        
 
         rect.setSize(sf::Vector2f(x/size, A[i] * y/size));
         rect.setPosition(i*(x/size), y - A[i] * y/size);
@@ -233,7 +235,10 @@ int main()
         //bogo_sort(&v[0], 1024);
         CocktailSort(&v[0], v.size());
 
-        sound.stop();
+        //sound.stop();
+
+        // and again
+        std::shuffle(v.begin(), v.end(), rng);
 
         //window.display();
     }
