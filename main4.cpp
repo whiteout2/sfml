@@ -110,7 +110,8 @@ void printArrayBar(int A[], int size, int r)
         rect.setFillColor(sf::Color::White);
 
         rect.setSize(sf::Vector2f(1.0f, A[i] * 0.75f));
-        rect.setPosition(i * (1024.0f / 768.0f) * 0.75f, 0);
+        //rect.setPosition(i * (1024.0f / 768.0f) * 0.75f, 0);
+        rect.setPosition(i * (1024.0f / 768.0f) * 0.75f, 768 - A[i]*0.75f);
         //rect.setFillColor(sf::Color::White);
 
         // static int r = 0;
