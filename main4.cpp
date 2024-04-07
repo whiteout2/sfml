@@ -133,10 +133,8 @@ void printArrayBar(int A[], int size, int r)
         if (i == r)
         {
             rect.setFillColor(sf::Color::Red);
-            //rect.setSize(sf::Vector2f(33.0f, A[i] * 0.75f));
 
-            // sound.setPitch(vrect[i].getSize().y*0.001f);
-            sound.setPitch(rect.getSize().y * 0.1f);
+            sound.setPitch(A[i] * 0.001f);
             sound.play();
         }
         window.draw(rect);
@@ -187,25 +185,32 @@ int main()
     //std::mt19937 g(rd());
     //std::shuffle(vrect.begin(), vrect.end(), g);
 
-    
+    // sound
+    //sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile("sound.wav"))
+        return -1;
+    //sf::Sound sound;
+    sound.setBuffer(buffer);
 
     
 
 
     while (window.isOpen())
     {
-        // sf::Event event;
-        // while (window.pollEvent(event))
-        // {
-        //     if (event.type == sf::Event::Closed)
-        //         window.close();
-        // }
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
 
         //window.clear();
 
         // NOTE: problem is we are in the game loop and have to do the sort loop as well
         //bogo_sort(&v[0], 1024);
         CocktailSort(&v[0], 1024);
+
+        sound.stop(); 
 
         //window.display();
     }
