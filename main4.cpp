@@ -19,6 +19,11 @@ void printArrayBar(int A[], int size, int r);
 sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
 
 
+// sound
+sf::SoundBuffer buffer;
+sf::Sound sound;
+
+
 void bogo_sort(int* a, int size) {
     while (!is_sorted(a, size)) {
         
@@ -103,6 +108,13 @@ void CocktailSort(int a[], int n)
 
 void printArrayBar(int A[], int size, int r)
 {
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            window.close();
+    }
+
     window.clear();
     for (int i = 0; i < 1024; i++)
     {
@@ -124,8 +136,8 @@ void printArrayBar(int A[], int size, int r)
             //rect.setSize(sf::Vector2f(33.0f, A[i] * 0.75f));
 
             // sound.setPitch(vrect[i].getSize().y*0.001f);
-            //sound.setPitch(rect.getSize().y * 0.001f);
-            // sound.play();
+            sound.setPitch(rect.getSize().y * 0.1f);
+            sound.play();
         }
         window.draw(rect);
     }
@@ -144,8 +156,8 @@ int main()
 
     std::vector<int> v(1024) ; // vector with 100 ints.
     std::iota(std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
-    v[0] = 1023;
-    v[666] = 1023;
+    //v[0] = 1023;
+    //v[666] = 1023;
 
     shuffle(&v[0], 1024);
 
@@ -177,63 +189,21 @@ int main()
 
     
 
-    // sound
-    sf::SoundBuffer buffer;
-    if (!buffer.loadFromFile("sound.wav"))
-        return -1;
-    sf::Sound sound;
-    sound.setBuffer(buffer);
+    
 
 
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+        // sf::Event event;
+        // while (window.pollEvent(event))
+        // {
+        //     if (event.type == sf::Event::Closed)
+        //         window.close();
+        // }
 
         //window.clear();
 
-        //sf::View view = window.getDefaultView();
-        //view.setSize(1024, -1024); 
-        //window.setView(view);
-
-        static int r = 0;
-        r++;
-        if (r>1023) r=0; 
-
-        //window.draw(rectangle);
-        for (int i=0; i<1024; i++) {
-            //vrect[i].setPosition(i*(1024.0f/768.0f), 768-i);
-            //vrect[i].setPosition(i*(1024.0f/768.0f), 0);
-            //vrect[i].setPosition(i*(1024.0f/768.0f)*0.75f, 768-vrect[i].getSize().y);
-            //vrect[i].setSize(sf::Vector2f(1.0f, v[666]*0.75f)); // leaks mem???
-            //vrect[i].setPosition(v[666]*(1024.0f/768.0f)*0.75f, 0);
-
-            rect.setSize(sf::Vector2f(1.0f, v[i]*0.75f)); // leaks mem???
-            rect.setPosition(v[i]*(1024.0f/768.0f)*0.75f, 0);
-            rect.setFillColor(sf::Color::White);
-            if (i==r) {
-                // vrect[i].setFillColor(sf::Color::Red);
-                // if(i==0) vrect[1023].setFillColor(sf::Color::White);
-                // else vrect[i-1].setFillColor(sf::Color::White);
-
-                rect.setFillColor(sf::Color::Red);
-                
-                //sound.setPitch(vrect[i].getSize().y*0.001f);
-                sound.setPitch(rect.getSize().y*0.001f);
-                //sound.play();
-            }
-            //window.draw(vrect[i]);
-            //window.draw(rect);
-        }
-        //for (sf::RectangleShape n : vrect) {
-        //    window.draw(n);
-        //}
-
-        // problem is we are in the game loop and have to do the sort loop as well
+        // NOTE: problem is we are in the game loop and have to do the sort loop as well
         //bogo_sort(&v[0], 1024);
         CocktailSort(&v[0], 1024);
 
