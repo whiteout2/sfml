@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -20,12 +21,20 @@ int main()
         vrect.push_back(rectangle);
     }
 
+    // shuffle
     auto rng = std::default_random_engine {};
     std::shuffle(vrect.begin(), vrect.end(), rng);
 
     //std::random_device rd;
     //std::mt19937 g(rd());
     //std::shuffle(vrect.begin(), vrect.end(), g);
+
+    // sound
+    sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile("sound.wav"))
+        return -1;
+    sf::Sound sound;
+    sound.setBuffer(buffer);
 
 
     while (window.isOpen())
@@ -51,10 +60,13 @@ int main()
         for (int i=0; i<1024; i++) {
             //vrect[i].setPosition(i*(1024.0f/768.0f), 768-i);
             //vrect[i].setPosition(i*(1024.0f/768.0f), 0);
-            vrect[i].setPosition(i*(1024.0f/768.0f), 768-vrect[i].getSize().y);
+            vrect[i].setPosition(i*(1024.0f/768.0f)*0.75f, 768-vrect[i].getSize().y);
             if (i==r) {
                 vrect[i].setFillColor(sf::Color::Red);
-                vrect[i-1].setFillColor(sf::Color::White);
+                if(i==0) vrect[1023].setFillColor(sf::Color::White);
+                else vrect[i-1].setFillColor(sf::Color::White);
+                sound.setPitch(vrect[i].getSize().y*0.001f);
+                //sound.play();
             }
             window.draw(vrect[i]);
         }
