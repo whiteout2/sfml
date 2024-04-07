@@ -31,7 +31,14 @@ sf::Sound sound;
 
 
 void bogo_sort(int* a, int size) {
-    while (!is_sorted(a, size)) {
+    while (!is_sorted(a, size) && window.isOpen()) {
+
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
         
         shuffle(a, size);
 
@@ -177,6 +184,9 @@ int main()
     std::iota(std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
     //v[0] = 1023;
     //v[66] = 1023;
+    // for (int i = 0; i < v.size(); i++) {
+    //     if (i<100) v[i] = 66;
+    // }
 
     //shuffle(&v[0], v.size());
 
@@ -233,12 +243,13 @@ int main()
         // TODO: make window close correctly
         // DONE: put window.isOpen() check in CocktailSort() while loop 
 
-        //bogo_sort(&v[0], 1024);
+        //bogo_sort(&v[0], v.size());
         CocktailSort(&v[0], v.size());
 
         sound.stop();
 
         // and again
+        // NOTE: keypress only works when running from terminal, not from debug
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             std::shuffle(v.begin(), v.end(), rng);
