@@ -137,6 +137,15 @@ void CocktailSort(int a[], int n)
 // Second subarray is arr[m+1..r]
 void merge(int arr[], int l, int m, int r)
 {
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+            //return;
+        }
+    }
+
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
@@ -201,8 +210,10 @@ void mergeSort(int arr[], int l, int r)
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+                //return;
+            }
         }
 
         // int arr_size = 6;//= sizeof(arr) / sizeof(arr[0]);
@@ -219,12 +230,14 @@ void mergeSort(int arr[], int l, int r)
 
 void printArrayBar(int A[], int size, int r)
 {
-    // sf::Event event;
-    // while (window.pollEvent(event))
-    // {
-    //     if (event.type == sf::Event::Closed)
-    //         window.close();
-    // }
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+            //return;
+        }
+    }
 
     window.clear();
     for (int i = 0; i < size; i++)
@@ -255,7 +268,12 @@ void printArrayBar(int A[], int size, int r)
         window.draw(rect);
     }
     window.display();
-    usleep(20000);
+
+    // NOTE: we get stuck in the loop/recursion for high usleep
+    // Check if window open
+    if (window.isOpen()) {
+        usleep(2000);
+    }
 }
 
 
@@ -319,8 +337,10 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+                return 0;
+            }
         }
 
         //window.clear();
