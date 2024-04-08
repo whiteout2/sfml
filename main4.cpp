@@ -30,6 +30,7 @@ sf::SoundBuffer buffer;
 sf::Sound sound;
 
 
+///////////////////////////////////////
 void bogo_sort(int* a, int size) {
     while (!is_sorted(a, size) && window.isOpen()) {
 
@@ -66,6 +67,8 @@ void shuffle(int* a, int size) {
 }
 
 
+
+///////////////////////////////////////
 // See: https://www.geeksforgeeks.org/cocktail-sort/
 void CocktailSort(int a[], int n)
 {
