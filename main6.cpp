@@ -174,7 +174,6 @@ void merge(int arr[], int l, int m, int r)
             arr[k] = L[i];
             i++;
             //printArray(arr, arr_size);
-            comp++;
         }
         else {
             arr[k] = R[j];
@@ -183,6 +182,7 @@ void merge(int arr[], int l, int m, int r)
         }
         k++;
         //printArray(arr, arr_size);
+        comp++;
     }
     //printArray(arr, arr_size);
 
@@ -292,10 +292,12 @@ void printArrayBar(int A[], int size, int r)
     }
 }
 
+// Sweeps the array after sort is finished
 void sweep(int A[], int size)
 {
     for (int j = 0; j < size; j++)
     {
+        // Below is similar to printArrayBar but with green color
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -328,6 +330,7 @@ void sweep(int A[], int size)
             }
             window.draw(rect);
         }
+        window.draw(text);
         window.display();
 
         if (window.isOpen())
@@ -336,6 +339,7 @@ void sweep(int A[], int size)
         }
     }
 }
+
 
 int main()
 {
@@ -348,6 +352,7 @@ int main()
 
     std::vector<int> v(vsize); // vector with 100 ints.
     std::iota(std::begin(v), std::end(v), 0); // Fill with 0, 1, ..., 99.
+
     //v[0] = 1023;
     //v[66] = 1023;
     // for (int i = 0; i < v.size(); i++) {
@@ -358,7 +363,10 @@ int main()
 
 
     auto rng = std::default_random_engine {};
-    std::shuffle(v.begin(), v.end(), rng); // buggy!!!
+    std::shuffle(v.begin(), v.end(), rng);
+
+    //std::reverse(v.begin(), v.end());
+
     
 
 
