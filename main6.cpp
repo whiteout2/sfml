@@ -435,7 +435,7 @@ int main()
         
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
-        //usleep(2000000);
+        usleep(2000000);
 
     
         comp = 0;
