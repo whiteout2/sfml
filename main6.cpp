@@ -332,7 +332,7 @@ void sweep(int A[], int size)
 
         if (window.isOpen())
         {
-            usleep(10000);
+            usleep(1000);
         }
     }
 }
