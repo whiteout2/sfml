@@ -435,15 +435,14 @@ int main()
         
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
-        usleep(2000000);
+        //usleep(2000000);
 
-        
-
+    
         comp = 0;
 
         // and again
         // NOTE: keypress only works when running from terminal, not from debug
-        //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             std::shuffle(v.begin(), v.end(), rng);            
         }
@@ -451,7 +450,8 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             std::reverse(v.begin(), v.end());
-        }
+        } else
+            std::shuffle(v.begin(), v.end(), rng);  
         
         
 
