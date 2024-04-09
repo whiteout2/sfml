@@ -402,7 +402,7 @@ int main()
         return -1;
     text.setFont(font);
     text.setString("Merge Sort");
-    text.setFillColor(sf::Color::White);
+    text.setFillColor(sf::Color::Green);
     text.setCharacterSize(18);
     text.setPosition(sf::Vector2f(20.0f, 10.0f));
 
@@ -435,13 +435,20 @@ int main()
 
         sound.stop();
 
+        comp = 0;
+
         // and again
         // NOTE: keypress only works when running from terminal, not from debug
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            std::shuffle(v.begin(), v.end(), rng);
-            comp = 0;
+            std::shuffle(v.begin(), v.end(), rng);            
         }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        {
+            std::reverse(v.begin(), v.end());
+        }
+        
         
 
         //window.display();
