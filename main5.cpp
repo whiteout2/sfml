@@ -31,6 +31,10 @@ sf::RectangleShape rect;
 sf::SoundBuffer buffer;
 sf::Sound sound;
 
+// text
+sf::Font font;
+sf::Text text;
+
 
 ///////////////////////////////////////
 void bogo_sort(int* a, int size) {
@@ -267,6 +271,8 @@ void printArrayBar(int A[], int size, int r)
         }
         window.draw(rect);
     }
+    // text
+    window.draw(text);
     window.display();
 
     // NOTE: we get stuck in the loop/recursion for high usleep
@@ -329,7 +335,14 @@ int main()
     //sf::Sound sound;
     sound.setBuffer(buffer);
 
-    
+    // text
+    if (!font.loadFromFile("Menlo.ttc"))
+        return -1;
+    text.setFont(font);
+    text.setString("Merge Sort");
+    text.setFillColor(sf::Color::White);
+    text.setCharacterSize(18);
+    text.setPosition(sf::Vector2f(20.0f, 10.0f));
 
 
     while (window.isOpen())
