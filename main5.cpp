@@ -19,6 +19,8 @@ void printArrayBar(int A[], int size, int r);
 
 int vsize = 1024;
 
+int comp = 0;
+
 //sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
 sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
 
@@ -172,6 +174,7 @@ void merge(int arr[], int l, int m, int r)
             arr[k] = L[i];
             i++;
             //printArray(arr, arr_size);
+            comp++;
         }
         else {
             arr[k] = R[j];
@@ -271,8 +274,15 @@ void printArrayBar(int A[], int size, int r)
         }
         window.draw(rect);
     }
+
     // text
+    std::string str1 = "Merge Sort\n";
+    std::string str2 = "Numbers: " + std::to_string(vsize) + "\n\n";
+    std::string str3 = "Comparisons: " + std::to_string(comp);
+    std::string str = str1 + str2 + str3;;
+    text.setString(str);
     window.draw(text);
+
     window.display();
 
     // NOTE: we get stuck in the loop/recursion for high usleep
@@ -376,6 +386,7 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             std::shuffle(v.begin(), v.end(), rng);
+            comp = 0;
         }
         
 
