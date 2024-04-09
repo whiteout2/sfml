@@ -432,14 +432,18 @@ int main()
         mergeSort(&v[0], 0, v.size()-1);
 
         sweep(&v[0], v.size());
-
+        
+        printArrayBar(&v[0], v.size(), -1);
         sound.stop();
+        usleep(2000000);
+
+        
 
         comp = 0;
 
         // and again
         // NOTE: keypress only works when running from terminal, not from debug
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             std::shuffle(v.begin(), v.end(), rng);            
         }
