@@ -19,6 +19,7 @@ void printArrayBar(int A[], int size, int r);
 
 int vsize = 1024;
 
+std::string strName = "Merge Sort";
 int comp = 0;
 
 //sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
@@ -105,6 +106,7 @@ void CocktailSort(int a[], int n)
                 std::swap(a[i], a[i + 1]);
                 printArrayBar(a, n, i+1);
                 swapped = true;
+                comp++;
             }
         }
  
@@ -127,6 +129,7 @@ void CocktailSort(int a[], int n)
                 std::swap(a[i], a[i + 1]);
                 printArrayBar(a, n, i+1);
                 swapped = true;
+                comp++;
             }
         }
  
@@ -276,7 +279,8 @@ void printArrayBar(int A[], int size, int r)
     }
 
     // text
-    std::string str1 = "Merge Sort\n";
+    //std::string str1 = "Merge Sort\n";
+    std::string str1 = strName + "\n";
     std::string str2 = "Numbers: " + std::to_string(vsize) + "\n\n";
     std::string str3 = "Comparisons: " + std::to_string(comp);
     std::string str = str1 + str2 + str3;;
@@ -425,20 +429,40 @@ int main()
         // So sort loop becomes game loop and we draw from the sort loop.
         // But now the window no longer closes correctly.
         // TODO: make window close correctly
-        // DONE: put window.isOpen() check in CocktailSort() while loop 
+        // DONE: put window.isOpen() check in CocktailSort() while loop
+
+        // NOTE: usleep(2000000); during transition makes interface unresponsive.
+        // TODO: do in a loop that checks time passed and does window.pollEvent(event)
 
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
+
+        v.resize(vsize = 1024);
+        std::iota(std::begin(v), std::end(v), 0);
+        std::shuffle(v.begin(), v.end(), rng); 
+        strName = "Merge Sort";
+        comp = 0;
+
         mergeSort(&v[0], 0, v.size()-1);
 
+        // Transition to next sort
         sweep(&v[0], v.size());
-        
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
         usleep(2000000);
-
-    
+        v.resize(vsize = 111);
+        std::shuffle(v.begin(), v.end(), rng); 
+        strName = "Cocktail Sort";
         comp = 0;
+
+        CocktailSort(&v[0], v.size());
+
+        // Transition to next sort
+        sweep(&v[0], v.size());
+        printArrayBar(&v[0], v.size(), -1);
+        sound.stop();
+        usleep(2000000);
+        
 
         // and again
         // NOTE: keypress only works when running from terminal, not from debug
