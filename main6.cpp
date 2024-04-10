@@ -437,6 +437,7 @@ int main()
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
 
+        // Prep
         v.resize(vsize = 1024);
         std::iota(std::begin(v), std::end(v), 0);
         std::shuffle(v.begin(), v.end(), rng); 
@@ -445,11 +446,13 @@ int main()
 
         mergeSort(&v[0], 0, v.size()-1);
 
-        // Transition to next sort
+        // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
         usleep(2000000);
+
+        // Prep
         v.resize(vsize = 111);
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Cocktail Sort";
@@ -457,7 +460,7 @@ int main()
 
         CocktailSort(&v[0], v.size());
 
-        // Transition to next sort
+        // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
