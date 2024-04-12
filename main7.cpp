@@ -377,6 +377,7 @@ void quicksort(int a[], int l, int r)
         printArrayBar(a, vsize, i);
         quicksort(a, l, i-1);
         quicksort(a, i+1, r);
+        printArrayBar(a, vsize, i); // one final print for correct comp
     }
 }
 
@@ -600,7 +601,7 @@ int main()
 
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
-
+//goto start;
         // Prep
         v.resize(vsize = 1024);
         std::iota(std::begin(v), std::end(v), 0);
@@ -631,7 +632,7 @@ int main()
         sound.stop();
         //usleep(2000000);
         udelay(2000000);
-
+start:
         // Prep
         v.resize(vsize = 1024);
         std::iota(std::begin(v), std::end(v), 0);
@@ -647,7 +648,7 @@ int main()
         sound.stop();
         //usleep(2000000);
         udelay(2000000);
-        
+//goto start;        
 
         // and again
         // NOTE: keypress only works when running from terminal, not from debug
