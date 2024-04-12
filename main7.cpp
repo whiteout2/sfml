@@ -345,6 +345,7 @@ void quickSort(int arr[], int low, int high)
 // Well, Sedgewick, is this code correct?
 // Of course it is but we introduced errors with comp++ without using {} causing a break;
 // immediately. Always use {} after if and while!!!
+// Use: -Wmisleading-indentation
 // And never try to write such terse code...
 void quicksort(int a[], int l, int r) 
 {
@@ -365,7 +366,7 @@ void quicksort(int a[], int l, int r)
         if (r <= l) { comp++; return; }
         for (;;) {
             while (a[++i] < v) { comp++; }
-            while (v < a[--j]) { comp++; if (j == l) break; } // comp++ introduced error: need {}
+            while (v < a[--j]) { comp++; if (j == l) break; } // comp++ introduced error: use {}
             if (i >= j) { comp++; break; }
             std::swap(a[i], a[j]);
             //printArray(a, arr_size);
