@@ -223,6 +223,7 @@ void merge(int arr[], int l, int m, int r)
         }
         k++;
         //printArray(arr, arr_size);
+        printArrayBar(arr, vsize, k);
         comp++;
     }
     //printArray(arr, arr_size);
