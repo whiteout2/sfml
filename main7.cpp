@@ -369,7 +369,7 @@ void quicksort(int a[], int l, int r)
             if (i >= j) { comp++; break; }
             std::swap(a[i], a[j]);
             //printArray(a, arr_size);
-            //printArrayBar(a, vsize, i);
+            printArrayBar(a, vsize, i);
         }
         std::swap(a[i], a[r]); // swap pivot
         //printArray(a, arr_size);
@@ -629,6 +629,7 @@ int main()
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
         //usleep(2000000);
+        udelay(2000000);
 
         // Prep
         v.resize(vsize = 1024);
@@ -644,6 +645,7 @@ int main()
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
         //usleep(2000000);
+        udelay(2000000);
         
 
         // and again
