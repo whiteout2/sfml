@@ -151,6 +151,7 @@ void merge(int arr[], int l, int m, int r)
     {
         if (event.type == sf::Event::Closed) {
             window.close();
+            sound.stop();
             //return;
         }
     }
@@ -222,6 +223,7 @@ void mergeSort(int arr[], int l, int r)
         {
             if (event.type == sf::Event::Closed) {
                 window.close();
+                sound.stop();
                 //return;
             }
         }
@@ -237,6 +239,108 @@ void mergeSort(int arr[], int l, int r)
     }
 }
 
+///////////////////////////////////////
+// See: https://www.geeksforgeeks.org/quick-sort/
+// Lomuto partition scheme
+/*
+// Utility function to swap tp integers
+void swap(int* p1, int* p2)
+{
+    int temp;
+    temp = *p1;
+    *p1 = *p2;
+    *p2 = temp;
+}
+
+int partition(int arr[], int low, int high)
+{
+    // choose the pivot
+    int pivot = arr[high];
+
+    // Index of smaller element and Indicate
+    // the right position of pivot found so far
+    int i = (low - 1);
+
+    for (int j = low; j <= high; j++) {
+        printArrayBar(arr, vsize, i);
+        // If current element is smaller than the pivot
+        if (arr[j] < pivot) {
+            // Increment index of smaller element
+            i++;
+            swap(&arr[i], &arr[j]);
+            //printArray(arr, arr_size);
+            //printArrayBar(arr, arr_size, i, j, high);
+            comp++;
+        }
+    }
+    i++;
+    //swap(&arr[i + 1], &arr[high]);
+    swap(&arr[i], &arr[high]); // swap pivot
+    //printArray(arr, arr_size);
+    printArrayBar(arr, vsize, i);
+    
+    //return (i + 1);
+    return (i);
+}
+
+// The Quicksort function Implement
+void quickSort(int arr[], int low, int high)
+{
+    // when low is less than high
+    if (low < high) {
+        // pi is the partition return index of pivot
+        int pi = partition(arr, low, high);
+
+        // Recursion Call
+        // smaller element than pivot goes left and
+        // higher element goes right
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+*/
+
+///////////////////////////////////////
+// See: https://web.archive.org/web/20120219000149/http://www.sorting-algorithms.com/static/QuicksortIsOptimal.pdf
+// Quicksort with 2-way partitioning
+// Hoare partition scheme but uses last value as pivot
+// NOTE: nasty recursion prob. After one run sweep() takes over.
+// Well, Sedgewick, is this code correct?
+// Of course it is but we introduced errors with comp++ without using {} causing a break;
+// immediately. Always use {} after if and while!!!
+// And never try to write such terse code...
+void quicksort(int a[], int l, int r) 
+{
+    if (window.isOpen()) 
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                return;
+            }
+        }
+
+        int i = l-1, j = r; 
+        int v = a[r]; // last value is pivot
+        if (r <= l) { comp++; return; }
+        for (;;) {
+            while (a[++i] < v) { comp++; }
+            while (v < a[--j]) { comp++; if (j == l) break; } // comp++ introduced error: need {}
+            if (i >= j) { comp++; break; }
+            std::swap(a[i], a[j]);
+            //printArray(a, arr_size);
+            //printArrayBar(a, vsize, i);
+        }
+        std::swap(a[i], a[r]); // swap pivot
+        //printArray(a, arr_size);
+        printArrayBar(a, vsize, i);
+        quicksort(a, l, i-1);
+        quicksort(a, i+1, r);
+    }
+}
+
 
 void printArrayBar(int A[], int size, int r)
 {
@@ -245,6 +349,7 @@ void printArrayBar(int A[], int size, int r)
     {
         if (event.type == sf::Event::Closed) {
             window.close();
+            sound.stop();
             //return;
         }
     }
@@ -411,6 +516,10 @@ int main()
     text.setPosition(sf::Vector2f(20.0f, 10.0f));
 
 
+    // TODO: Even though we catch all Closed events in all the sort loops and recursions
+    // the app does not close immediately. Fix it.
+    // It is probably caused by the sound playing on for 5 secs but sound.stop(); does
+    // not solve it. 
     while (window.isOpen())
     {
         sf::Event event;
@@ -418,6 +527,7 @@ int main()
         {
             if (event.type == sf::Event::Closed) {
                 window.close();
+                sound.stop();
                 return 0;
             }
         }
@@ -459,6 +569,21 @@ int main()
         comp = 0;
 
         CocktailSort(&v[0], v.size());
+
+        // Transition
+        sweep(&v[0], v.size());
+        printArrayBar(&v[0], v.size(), -1);
+        sound.stop();
+        usleep(2000000);
+
+        // Prep
+        v.resize(vsize = 1024);
+        std::iota(std::begin(v), std::end(v), 0);
+        std::shuffle(v.begin(), v.end(), rng); 
+        strName = "Quick Sort";
+        comp = 0;
+
+        quicksort(&v[0], 0, v.size()-1);
 
         // Transition
         sweep(&v[0], v.size());
