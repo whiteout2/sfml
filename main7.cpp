@@ -47,7 +47,9 @@ void bogo_sort(int* a, int size) {
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+                sound.stop();
                 window.close();
+                exit(0);
         }
         
         shuffle(a, size);
@@ -95,8 +97,11 @@ void CocktailSort(int a[], int n)
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
+                sound.stop();
                 window.close();
+                exit(0);
+            }
         }
  
         // loop from left to right same as
@@ -150,9 +155,9 @@ void merge(int arr[], int l, int m, int r)
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed) {
-            window.close();
             sound.stop();
-            //return;
+            window.close();
+            exit(0);
         }
     }
 
@@ -222,9 +227,9 @@ void mergeSort(int arr[], int l, int r)
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                window.close();
                 sound.stop();
-                //return;
+                window.close();
+                exit(0);
             }
         }
 
@@ -317,8 +322,9 @@ void quicksort(int a[], int l, int r)
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
+                sound.stop();
                 window.close();
-                return;
+                exit(0);
             }
         }
 
@@ -348,9 +354,9 @@ void printArrayBar(int A[], int size, int r)
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed) {
-            window.close();
             sound.stop();
-            //return;
+            window.close();
+            exit(0);
         }
     }
 
@@ -410,10 +416,10 @@ void sweep(int A[], int size)
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-            {
+            if (event.type == sf::Event::Closed) {
+                sound.stop();
                 window.close();
-                // return;
+                exit(0);
             }
         }
 
@@ -519,15 +525,23 @@ int main()
     // TODO: Even though we catch all Closed events in all the sort loops and recursions
     // the app does not close immediately. Fix it.
     // It is probably caused by the sound playing on for 5 secs but sound.stop(); does
-    // not solve it. 
+    // not solve it.
+    // Hoewel, main4 sluit wel OK en ook daar hebben we sound. CocktailSort draait daar in
+    // een while loop. Het is pas fout gegaan bij MergeSort met recursion.
+    // NONO: het komt door usleep(2000000); tijdens de Transition.
+    // Sowieso maakt dat de boel unresponsive tijdens de sleep maar ook na het sluiten
+    // loopen we nog eenmaal door 3x usleep(2000000);
+    // Snelle fix is om alleen usleep te doen als window open is, maar nog beter is een 
+    // aparte delay functie te maken waarbij er constant wordt gecheckt naar verlopen tijd
+    // en window close event.
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                window.close();
                 sound.stop();
+                window.close();
                 return 0;
             }
         }
@@ -543,6 +557,12 @@ int main()
 
         // NOTE: usleep(2000000); during transition makes interface unresponsive.
         // TODO: do in a loop that checks time passed and does window.pollEvent(event)
+
+        // NOTE: whenever we close the window we still fall through to the other sorts
+        // one more time.
+        // Those will then immediately return because they check for window close but
+        // the program will still take a longer time to respond to close.
+        // TODO: exit program immediately upon close.
 
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
@@ -560,7 +580,7 @@ int main()
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
-        usleep(2000000);
+        //usleep(2000000);
 
         // Prep
         v.resize(vsize = 111);
@@ -574,7 +594,7 @@ int main()
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
-        usleep(2000000);
+        //usleep(2000000);
 
         // Prep
         v.resize(vsize = 1024);
@@ -589,21 +609,21 @@ int main()
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
-        usleep(2000000);
+        //usleep(2000000);
         
 
         // and again
         // NOTE: keypress only works when running from terminal, not from debug
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        {
-            std::shuffle(v.begin(), v.end(), rng);            
-        }
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        // {
+        //     std::shuffle(v.begin(), v.end(), rng);            
+        // }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-        {
-            std::reverse(v.begin(), v.end());
-        } else
-            std::shuffle(v.begin(), v.end(), rng);  
+        // if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        // {
+        //     std::reverse(v.begin(), v.end());
+        // } else
+        //     std::shuffle(v.begin(), v.end(), rng);  
         
         
 
