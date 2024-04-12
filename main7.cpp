@@ -5,6 +5,21 @@
 #include <algorithm>
 #include <random>
 #include <unistd.h>
+#include <chrono>
+
+
+struct perf {
+    std::chrono::steady_clock::time_point start_;
+    perf() : start_(std::chrono::steady_clock::now()) {}
+    double elapsed() const {
+        auto stop = std::chrono::steady_clock::now();
+        std::chrono::duration<double> elapsed_seconds = stop - start_;
+        return elapsed_seconds.count();
+    }
+};
+
+
+
 
 
 // executes in-place bogo sort on a given array
@@ -38,6 +53,22 @@ sf::Sound sound;
 sf::Font font;
 sf::Text text;
 
+void udelay (long usec) {
+    perf p3;
+    while (p3.elapsed() < usec/1000000.0f && window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                //sound.stop();
+                //window.close();
+                exit(0);
+            }
+        }
+    }
+}
+
 
 ///////////////////////////////////////
 void bogo_sort(int* a, int size) {
@@ -46,10 +77,11 @@ void bogo_sort(int* a, int size) {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                sound.stop();
-                window.close();
+            if (event.type == sf::Event::Closed) {
+                //sound.stop();
+                //window.close();
                 exit(0);
+            }
         }
         
         shuffle(a, size);
@@ -98,8 +130,8 @@ void CocktailSort(int a[], int n)
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                sound.stop();
-                window.close();
+                //sound.stop();
+                //window.close();
                 exit(0);
             }
         }
@@ -155,8 +187,8 @@ void merge(int arr[], int l, int m, int r)
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed) {
-            sound.stop();
-            window.close();
+            //sound.stop();
+            //window.close();
             exit(0);
         }
     }
@@ -227,8 +259,8 @@ void mergeSort(int arr[], int l, int r)
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                sound.stop();
-                window.close();
+                //sound.stop();
+                //window.close();
                 exit(0);
             }
         }
@@ -322,8 +354,8 @@ void quicksort(int a[], int l, int r)
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                sound.stop();
-                window.close();
+                //sound.stop();
+                //window.close();
                 exit(0);
             }
         }
@@ -354,8 +386,8 @@ void printArrayBar(int A[], int size, int r)
     while (window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed) {
-            sound.stop();
-            window.close();
+            //sound.stop();
+            //window.close();
             exit(0);
         }
     }
@@ -417,8 +449,8 @@ void sweep(int A[], int size)
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) {
-                sound.stop();
-                window.close();
+                //sound.stop();
+                //window.close();
                 exit(0);
             }
         }
@@ -559,10 +591,11 @@ int main()
         // TODO: do in a loop that checks time passed and does window.pollEvent(event)
 
         // NOTE: whenever we close the window we still fall through to the other sorts
-        // one more time.
+        // and functions one more time.
         // Those will then immediately return because they check for window close but
         // the program will still take a longer time to respond to close.
         // TODO: exit program immediately upon close.
+        // DONE: use exit(0);
 
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
@@ -581,6 +614,7 @@ int main()
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
         //usleep(2000000);
+        udelay(2000000);
 
         // Prep
         v.resize(vsize = 111);
