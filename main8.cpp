@@ -389,7 +389,7 @@ uint32_t rgb(double ratio)
 {
     //we want to normalize ratio so that it fits in to 6 regions
     //where each region is 256 units long
-    int normalized = int(ratio * 256 * 6);
+    int normalized = int(ratio * 256 * 5); // use only 5 regions for ROGGBIV
 
     //find the region for this position
     int region = normalized / 256;
