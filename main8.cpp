@@ -448,7 +448,7 @@ void printArrayBar(int A[], int size, int r)
         {
             rect.setFillColor(sf::Color::Red);
 
-            sound.setPitch(A[i] * 0.01f);
+            sound.setPitch(A[i] * 0.003f);
             sound.play();
         }
         window.draw(rect);
@@ -505,7 +505,7 @@ void sweep(int A[], int size)
             {
                 rect.setFillColor(sf::Color::Red);
 
-                sound.setPitch(A[i] * 0.01f);
+                sound.setPitch(A[i] * 0.003f);
                 sound.play();
             }
             window.draw(rect);
@@ -665,7 +665,7 @@ int main()
         udelay(2000000);
 start:
         // Prep
-        v.resize(vsize = 1024);
+        v.resize(vsize = 2048);
         std::iota(std::begin(v), std::end(v), 0);
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Quick Sort";
