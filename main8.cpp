@@ -389,7 +389,7 @@ uint32_t rgb(double ratio)
 {
     //we want to normalize ratio so that it fits in to 6 regions
     //where each region is 256 units long
-    int normalized = int(ratio * 256 * 5); // use only 5 regions for ROGGBIV
+    int normalized = int(ratio * 256 * 6); // use only 5 regions for ROGGBIV
 
     //find the region for this position
     int region = normalized / 256;
@@ -427,7 +427,7 @@ void printArrayBar(int A[], int size, int r)
     for (int i = 0; i < size; i++)
     {
         //sf::RectangleShape rect;
-        rect.setFillColor(sf::Color::White);
+        //rect.setFillColor(sf::Color::White);
         rect.setFillColor(sf::Color(rgb(double(A[i])/size)));		
 
 
@@ -446,7 +446,8 @@ void printArrayBar(int A[], int size, int r)
 
         if (i == r)
         {
-            rect.setFillColor(sf::Color::Red);
+            //rect.setFillColor(sf::Color::Red);
+            rect.setFillColor(sf::Color::White);
 
             sound.setPitch(A[i] * 0.003f);
             sound.play();
@@ -582,7 +583,8 @@ int main()
         return -1;
     text.setFont(font);
     text.setString("Merge Sort");
-    text.setFillColor(sf::Color::Green);
+    //text.setFillColor(sf::Color::Green);
+    text.setFillColor(sf::Color::White);
     text.setCharacterSize(18);
     text.setPosition(sf::Vector2f(20.0f, 10.0f));
 
