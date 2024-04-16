@@ -473,7 +473,7 @@ void printArrayBar(int A[], int size, int r)
     // NOTE: we get stuck in the loop/recursion for high usleep
     // Check if window open
     if (window.isOpen()) {
-        usleep(2000);
+        usleep(20);
     }
 }
 
