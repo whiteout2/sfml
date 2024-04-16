@@ -89,7 +89,7 @@ bool TestCompare(Test item1, Test item2) {
 	#if PROFILE
 		comparisons++;
 		comp++; //RG
-		printArrayBar(&v[0], vsize, item1);
+		printArrayBar(&v[0], vsize, item2);
 	#endif
 	
 	//return (item1.value < item2.value);
