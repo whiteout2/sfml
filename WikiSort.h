@@ -475,7 +475,7 @@ void WikiSort(Test array[], const size_t size, const Comparison compare) {
 		/* and making it too large also ruins the point (so much for "low memory"!) */
 		/* removing the cache entirely still gives 70% of the performance of a standard merge */
 		//RG
-		// NOTE: Let's give no cache at all to make it trully in-place O(1) space complexity
+		// NOTE: Let's give no cache at all to make it truly in-place O(1) space complexity
 		//#define CACHE_SIZE 512
 		#define CACHE_SIZE 0
 		const size_t cache_size = CACHE_SIZE;
