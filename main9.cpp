@@ -473,7 +473,7 @@ void printArrayBar(int A[], int size, int r)
     // NOTE: we get stuck in the loop/recursion for high usleep
     // Check if window open
     if (window.isOpen()) {
-        usleep(2000);
+        usleep(200000);
     }
 }
 
@@ -687,7 +687,7 @@ goto start;
         udelay(2000000);
 start:
         // Prep
-        v.resize(vsize = 1024);
+        v.resize(vsize = 64);
         std::iota(std::begin(v), std::end(v), 0);
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Wiki Sort";
