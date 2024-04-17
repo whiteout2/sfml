@@ -161,7 +161,7 @@ Range Range_new(const size_t start, const size_t end) {
 // *a == "contents of pointer a"
 // &a == "address of variable a"
 
-// By pointer: (call with addresses of the values by using &value)
+// By-pointer: (call with addresses of the values by using &value)
 void Swap2(int* value1, int* value2) {
 	// This works:
 	// int temp = *value1;
@@ -172,7 +172,7 @@ void Swap2(int* value1, int* value2) {
 	printArrayBar(&v[0], vsize, *value1);
 }
 
-// By reference: (call normally, the function itself will use the addresses, confusing!)
+// By-reference: (call normally, the function itself will use the addresses, confusing!)
 void Swap3(int& value1, int& value2) {
 	// This works:
 	int temp = value1;
