@@ -687,7 +687,7 @@ goto start;
         udelay(2000000);
 start:
         // Prep
-        v.resize(vsize = 1024);
+        v.resize(vsize = 111);
         std::iota(std::begin(v), std::end(v), 0);
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Wiki Sort";

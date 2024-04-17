@@ -92,6 +92,7 @@ bool TestCompare(Test item1, Test item2) {
 		printArrayBar(&v[0], vsize, item2);
 	#endif
 	
+	//RG
 	//return (item1.value < item2.value);
 	return (item1 < item2);
 }
@@ -129,6 +130,72 @@ Range Range_new(const size_t start, const size_t end) {
 	*b = c; \
 	printArrayBar(&v[0], vsize, value1); \
 }
+// HELL: This guy loves his #defines but making this a function causes the 
+// program to stall. Why?
+// When commenting out printArrayBar() we get an EXC_BAD_ACCESS. Why?
+// Is it because Swap is used for all types of value, not just int?
+// NONO: Making value1 and value2 auto still gives EXC_BAD_ACCESS.
+// It is triggered in Reverse() for index == 9223372036853495807
+// Looks like an error in the program (array out of bounds) which does not
+// get caught when using a #define
+// YESS: It is definitely an error. Using a test variable in Reverse() exposes the
+// error.
+// NONO: When we call the function we get copies of the values. So we cannot
+// swap with an extra function call.
+/* void Swap(unsigned long value1, unsigned long value2) {
+	Var(a, &(value1));
+	Var(b, &(value2));
+	
+	Var(c, *a);
+	*a = *b;
+	*b = c;
+	//printArrayBar(&v[0], vsize, value1);
+} */
+
+// Why does this hang?
+// Problem is we are calling a function and thus get copies of the values since we
+// are calling by value.
+// Must call by pointer or by reference
+
+// NOTE:
+// *a == "contents of pointer a"
+// &a == "address of variable a"
+
+// By pointer: (call with addresses of the values by using &value)
+void Swap2(int* value1, int* value2) {
+	// This works:
+	// int temp = *value1;
+	// *value1 = *value2;
+	// *value2 = temp;
+	// This works too:
+	std::swap(*value1, *value2);
+	printArrayBar(&v[0], vsize, *value1);
+}
+
+// By reference: (call normally, the function itself will take the addresses)
+void Swap3(int& value1, int& value2) {
+	// This works:
+	// int temp = value1;
+	// value1 = value2;
+	// value2 = temp;
+	// This works too:
+	std::swap(value1, value2);
+	printArrayBar(&v[0], vsize, value1);
+}
+
+
+// NOTE: 
+// See: https://www.geeksforgeeks.org/cpp-function-call-by-pointer/
+// Function Call by Pointer
+// Passing the variable address from the calling function and using them as a pointer 
+// inside the function is called the call-by-pointer. This method allows clearer 
+// visibility of functions in which the value of the passed variables may change. i.e., 
+// In pass-by-reference, there is no indication in the function call that could be used 
+// to determine that the value of the passed variables may change in it (as the call is 
+// identical to call by value). But in call-by-pointer, the address operator & is used 
+// in the function call, providing a bit more intel about the nature of the function.
+
+
 
 /* 63 -> 32, 64 -> 64, etc. */
 /* this comes from Hacker's Delight */
@@ -239,8 +306,25 @@ void InsertionSort(Test array[], const Range range, const Comparison compare) {
 /* reverse a range of values within the array */
 void Reverse(Test array[], const Range range) {
 	size_t index;
-	for (index = Range_length(range)/2; index > 0; index--)
-		Swap(array[range.start + index - 1], array[range.end - index]);
+	for (index = Range_length(range)/2; index > 0; index--) {
+		// NOTE: There is an array out of bounds exception here that does not get 
+		// caught because Swap() is a #define. Making it a function reveals the error.
+		// So does using a test variable.
+		// NONO: All was caused by not using call by pointer or reference
+		// TEST:
+		//int test = array[range.start + index - 1];
+		//Swap(array[range.start + index - 1], array[range.end - index]);
+		// This works:
+		//std::swap(array[range.start + index - 1], array[range.end - index]);
+		// This hangs. Why?:
+		// Swap(array[range.start + index - 1], array[range.end - index]);
+		// Basic knowledge, you dunce:
+		// See: https://www.geeksforgeeks.org/cpp-function-call-by-pointer/
+		// Have to call by pointer:
+		//Swap2(&array[range.start + index - 1], &array[range.end - index]);
+		// Or by reference:
+		Swap3(array[range.start + index - 1], array[range.end - index]);
+	}
 }
 
 /* swap a series of values in the array */
@@ -684,6 +768,9 @@ void WikiSort(Test array[], const size_t size, const Comparison compare) {
 			
 			size_t block_size = sqrt(WikiIterator_length(&iterator));
 			size_t buffer_size = WikiIterator_length(&iterator)/block_size + 1;
+
+			// TEST:
+			//printf("block size: %zu\n", block_size);
 			
 			/* as an optimization, we really only need to pull out the internal buffers once for each level of merges */
 			/* after that we can reuse the same buffers over and over, then redistribute it when we're finished with this level */
