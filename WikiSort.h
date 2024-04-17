@@ -142,7 +142,7 @@ Range Range_new(const size_t start, const size_t end) {
 // error.
 // NONO: When we call the function we get copies of the values. So we cannot
 // swap with an extra function call.
-/* void Swap(unsigned long value1, unsigned long value2) {
+/* void Swap(int value1, int value2) {
 	Var(a, &(value1));
 	Var(b, &(value2));
 	
@@ -155,7 +155,7 @@ Range Range_new(const size_t start, const size_t end) {
 // Why does this hang?
 // Problem is we are calling a function and thus get copies of the values since we
 // are calling by value.
-// Must call by pointer or by reference
+// Must call by pointer or by reference.
 
 // NOTE:
 // *a == "contents of pointer a"
@@ -168,28 +168,30 @@ void Swap2(int* value1, int* value2) {
 	// *value1 = *value2;
 	// *value2 = temp;
 	// This works too:
-	std::swap(*value1, *value2);
+	std::swap(*value1, *value2); // NOTE: std::swap is call by reference
 	printArrayBar(&v[0], vsize, *value1);
 }
 
-// By reference: (call normally, the function itself will take the addresses)
+// By reference: (call normally, the function itself will use the addresses, confusing!)
 void Swap3(int& value1, int& value2) {
 	// This works:
-	// int temp = value1;
-	// value1 = value2;
-	// value2 = temp;
+	int temp = value1;
+	value1 = value2;
+	value2 = temp;
 	// This works too:
-	std::swap(value1, value2);
+	//std::swap(value1, value2);
 	printArrayBar(&v[0], vsize, value1);
 }
 
+// NOTE: Call by reference is why C-coders hate C++. It is created to simplify, but 
+// it actually obscures things.
 
 // NOTE: 
 // See: https://www.geeksforgeeks.org/cpp-function-call-by-pointer/
 // Function Call by Pointer
 // Passing the variable address from the calling function and using them as a pointer 
 // inside the function is called the call-by-pointer. This method allows clearer 
-// visibility of functions in which the value of the passed variables may change. i.e., 
+// visibility of functions in which the value of the passed variables may change. 
 // In pass-by-reference, there is no indication in the function call that could be used 
 // to determine that the value of the passed variables may change in it (as the call is 
 // identical to call by value). But in call-by-pointer, the address operator & is used 
