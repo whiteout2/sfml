@@ -39,6 +39,7 @@ std::vector<int> v(vsize);
 std::string strName = "Merge Sort";
 int comp = 0;
 
+// Ugly but handy
 #include "WikiSort.h"
 
 //sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
