@@ -5,11 +5,11 @@
 namespace isort
 { 
 
-#define MAXN 10000000
+//#define MAXN 10000000
 
 typedef int DType;
 
-DType realx[MAXN];
+//DType realx[MAXN];
 //int *x = realx; /* allow x to shift for heaps */
 //int n;
 int *x = &v[0];
