@@ -706,7 +706,7 @@ goto start;
         sound.stop();
         //usleep(2000000);
         udelay(2000000);
-    start:
+start:
         // Prep
         v.resize(vsize = 333);
         std::iota(std::begin(v), std::end(v), 0);
