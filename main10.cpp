@@ -778,7 +778,7 @@ start:
         
 
         //window.display();
-    }
+    } // END: game loop
 
     return 0;
 }
