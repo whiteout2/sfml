@@ -43,6 +43,8 @@ void isort2()
             t = x[j];
             x[j] = x[j-1];
             x[j-1] = t;
+            comp++;
+            printArrayBar(&v[0], vsize, j);
         }
 }
 

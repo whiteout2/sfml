@@ -33,8 +33,10 @@ static void shuffle(int* a, int size);
 
 void printArrayBar(int A[], int size, int r);
 
-int vsize = 333;
+int vsize = 100;
 std::vector<int> v(vsize);
+
+std::vector<int> v2;
 
 std::string strName = "Merge Sort";
 int comp = 0;
@@ -708,7 +710,7 @@ goto start;
         udelay(2000000);
 start:
         // Prep
-        v.resize(vsize = 333);
+        v.resize(vsize);
         std::iota(std::begin(v), std::end(v), 0);
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Insertion Sort";
@@ -716,7 +718,42 @@ start:
         //udelay(2000000);
         comp = 0;
 
+        // Let's time 'em (using the same vector for fairness)
+        // NOTE: we are getting:
+        // isort1: 15.608945
+        // isort2: 15.910590
+        // isort3: 15.920429
+        // So the more optimized versions are slower...
+        // NOTE: When trying to time with a large vector and without printArrayBar()
+        // we are getting a memory leak here because the game loop is now fast and 
+        // everytime creates a large vector. Better make it a global.
+        //std::vector v2 = v;
+        // For vsize 100000 and without printArrayBar() we get:
+        // isort1: 8.708789
+        // isort2: 6.740170
+        // isort3: 5.246783
+        // So optimized version is faster.
+        v2 = v;
+
+        strName = "Insertion Sort (isort1)";
+        comp = 0;
+        perf p1;
+        isort::isort1();
+        printf("isort1: %f\n", p1.elapsed());
+
+        v = v2;
+        strName = "Insertion Sort (isort2)";
+        comp = 0;
+        perf p2;
+        isort::isort2();
+        printf("isort2: %f\n", p2.elapsed());
+
+        v = v2;
+        strName = "Insertion Sort (isort3)";
+        comp = 0;
+        perf p3;
         isort::isort3();
+        printf("isort3: %f\n", p3.elapsed());
 
         // Transition
         sweep(&v[0], v.size());
