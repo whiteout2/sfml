@@ -776,8 +776,8 @@ start:
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         sound.stop();
-        //usleep(2000000);
-        udelay(2000000); 
+        udelay(2000000);
+
 
         // and again
         // NOTE: keypress only works when running from terminal, not from debug

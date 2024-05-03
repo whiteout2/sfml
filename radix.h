@@ -20,8 +20,7 @@ int getMax(int arr[], int n)
 // represented by exp.
 void countSort(int arr[], int n, int exp)
 {
-
-    // Output array
+   // Output array
     int output[n];
     int i, count[10] = { 0 };
 
