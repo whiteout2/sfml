@@ -430,6 +430,10 @@ void printArrayBar(int A[], int size, int r)
             //window.close();
             exit(0);
         }
+        // ALAS: this not catch fullscreen menu event
+        // if (event.type == sf::Event::LostFocus) {
+        //     sound.stop();
+        // }
     }
 
     window.clear();
@@ -640,6 +644,11 @@ int main()
         // the program will still take a longer time to respond to close.
         // TODO: exit program immediately upon close.
         // DONE: use exit(0);
+
+        // NOTE: There still is a small UI snag: when we hover over the green fullscreen
+        // window button a menu appears. The app then stalls and the sound plays on till
+        // the end. Must catch that event and stop the sound. But how to do that from an
+        // SFML app?
 
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
