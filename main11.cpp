@@ -430,7 +430,7 @@ void printArrayBar(int A[], int size, int r)
             //window.close();
             exit(0);
         }
-        // ALAS: this not catch fullscreen menu event
+        // ALAS: this does not catch fullscreen menu event
         // if (event.type == sf::Event::LostFocus) {
         //     sound.stop();
         // }
