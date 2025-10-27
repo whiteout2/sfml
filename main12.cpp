@@ -28,7 +28,7 @@ struct perf {
     }
 };
 
-
+perf p0;
 
 // executes in-place bogo sort on a given array
 static void bogo_sort(int* a, int size);
@@ -509,13 +509,25 @@ void printArrayBar(int A[], int size, int r)
         window.draw(rect);
     }
 
+    std::string str = "";
+    //static perf p0;
+    static std::string str4_last = "";
+    
     // text
     //std::string str1 = "Merge Sort\n";
     std::string str1 = strName + "\n";
-    std::string str2 = "Numbers: " + std::to_string(vsize) + "\n\n";
-    std::string str3 = "Comparisons: " + std::to_string(comp);
-    std::string str = str1 + str2 + str3;
-    g_str = str;
+    std::string str2 = "Numbers: " + std::to_string(vsize) + "\n";
+    std::string str3 = "Comparisons: " + std::to_string(comp) + "\n";
+    std::string str4 = "Time: " + std::to_string(p0.elapsed()) + " sec\n\n";
+    str = str1 + str2 + str3 + str4;
+    // Transition
+    if (r == -1) {
+        //p0.start_ = std::chrono::steady_clock::now();
+        str = str1 + str2 + str3 + str4_last;
+        std::cout << str;
+    }
+    //g_str = str;
+    str4_last = str4;
     
     // sf::Font font;
     // if (!font.openFromFile("Menlo.ttc")) {  // Use openFromFile in SFML 3
@@ -739,6 +751,7 @@ int main()
             std::iota(std::begin(v), std::end(v), 0);
             std::shuffle(v.begin(), v.end(), rng);
             comp = 0;
+            p0.start_ = std::chrono::steady_clock::now();
 
             switch(i)
             {
@@ -768,6 +781,7 @@ int main()
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Merge Sort";
         comp = 0;
+        p0.start_ = std::chrono::steady_clock::now();
 
         mergeSort(&v[0], 0, v.size()-1);
 
@@ -784,6 +798,7 @@ int main()
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Cocktail Sort";
         comp = 0;
+        p0.start_ = std::chrono::steady_clock::now();
 
         CocktailSort(&v[0], v.size());
 
@@ -801,6 +816,7 @@ int main()
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Quick Sort";
         comp = 0;
+        p0.start_ = std::chrono::steady_clock::now();
 
         quicksort(&v[0], 0, v.size()-1);
 
@@ -820,6 +836,7 @@ int main()
         //printArrayBar(&v[0], v.size(), -1);
         //udelay(2000000);
         comp = 0;
+        p0.start_ = std::chrono::steady_clock::now();
 
         //Comparison compare = TestCompare;
         WikiSort(&v[0], v.size(), compare);
@@ -840,6 +857,7 @@ start:
         //printArrayBar(&v[0], v.size(), -1);
         //udelay(2000000);
         comp = 0;
+        p0.start_ = std::chrono::steady_clock::now();
 
         // Let's time 'em (using the same vector for fairness)
         // NOTE: we are getting:
@@ -860,6 +878,7 @@ start:
 
         strName = "Insertion Sort (isort1)";
         comp = 0;
+        p0.start_ = std::chrono::steady_clock::now();
         perf p1;
         //isort::isort1();
         isort::isort1(v);
@@ -893,6 +912,7 @@ start:
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Radix Sort (LSD)";
         comp = 0;
+        p0.start_ = std::chrono::steady_clock::now();
 
         radixsort(&v[0], v.size());
 
