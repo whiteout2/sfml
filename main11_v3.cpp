@@ -94,7 +94,13 @@ sf::RectangleShape rect;
 
 // sound
 sf::SoundBuffer buffer;
-//sf::Sound sound;
+
+// TEST: Why the hell can't we get a global sound object?
+// YESS: Works now for sound2
+sf::SoundBuffer buffer2("sound.wav");   // constructed directly from file
+//sf::Sound sound2; // no matching constructor for initialization of 'sf::Sound'
+//sound2(buffer2); // this declaration has no storage class or type specifier
+sf::Sound sound2(buffer2);              // constructed from buffer object
 
 // text
 sf::Font font;
@@ -111,7 +117,8 @@ void udelay (long usec) {
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
-                getSound().stop();
+                // getSound().stop();
+                sound2.stop();
                 //window.close();
                 exit(0);
             }
@@ -131,7 +138,8 @@ void bogo_sort(int* a, int size) {
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
-                getSound().stop();
+                // getSound().stop();
+                sound2.stop();
                 //window.close();
                 exit(0);
             }
@@ -186,7 +194,8 @@ void CocktailSort(int a[], int n)
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
-                getSound().stop();
+                // getSound().stop();
+                sound2.stop();
                 //window.close();
                 exit(0);
             }
@@ -246,7 +255,8 @@ void merge(int arr[], int l, int m, int r)
         //if (event.type == sf::Event::Closed) {
         if (event->is<sf::Event::Closed>()) {
             //sound.stop();
-            getSound().stop();
+            // getSound().stop();
+            sound2.stop();
             //window.close();
             exit(0);
         }
@@ -322,7 +332,8 @@ void mergeSort(int arr[], int l, int r)
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
-                getSound().stop();
+                // getSound().stop();
+                sound2.stop();
                 //window.close();
                 exit(0);
             }
@@ -421,7 +432,8 @@ void quicksort(int a[], int l, int r)
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
-                getSound().stop();
+                // getSound().stop();
+                sound2.stop();
                 //window.close();
                 exit(0);
             }
@@ -485,7 +497,8 @@ void printArrayBar(int A[], int size, int r)
         //if (event.type == sf::Event::Closed) {
         if (event->is<sf::Event::Closed>()) {
             //sound.stop();
-            getSound().stop();
+            // getSound().stop();
+            sound2.stop();
             //window.close();
             exit(0);
         }
@@ -531,8 +544,10 @@ void printArrayBar(int A[], int size, int r)
 
             // sound.setPitch(A[i] * 0.003f);
             // sound.play();
-            getSound().setPitch(A[i] * 0.003f);
-            getSound().play();
+            // getSound().setPitch(A[i] * 0.003f);
+            // getSound().play();
+            sound2.setPitch(A[i] * 0.003f);
+            sound2.play();
         }
         window.draw(rect);
     }
@@ -579,7 +594,8 @@ void sweep(int A[], int size)
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
-                getSound().stop();
+                // getSound().stop();
+                sound2.stop();
                 //window.close();
                 exit(0);
             }
@@ -611,9 +627,10 @@ void sweep(int A[], int size)
 
                 // sound.setPitch(A[i] * 0.003f);
                 // sound.play();
-
-                getSound().setPitch(A[i] * 0.003f);
-                getSound().play();
+                // getSound().setPitch(A[i] * 0.003f);
+                // getSound().play();
+                sound2.setPitch(A[i] * 0.003f);
+                sound2.play();
             }
             window.draw(rect);
         }
@@ -698,6 +715,10 @@ int main()
     //sf::Sound sound;
     //sound.setBuffer(buffer);
     sf::Sound sound(buffer);
+
+    // TEST: Why the hell can't we get a global sound object?
+    //sound2(buffer); // call of an object of a class type without appropriate operator() or conversion functions to pointer-to-function type
+    //sound2.setBuffer(buffer);
 
     //sound.play();
 
