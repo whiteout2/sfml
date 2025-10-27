@@ -491,7 +491,7 @@ void printArrayBar(int A[], int size, int r)
 
         rect.setSize(sf::Vector2f(x/size, A[i] * y/size));
         //rect.setPosition(i*(x/size), y - A[i] * y/size);
-        rect.setPosition(sf::Vector2f(i * (x / size), y - A[i] * y / size));
+        rect.setPosition(sf::Vector2f(i * (x/size), y - A[i] * y/size));
 
 
         // static int r = 0;
@@ -563,7 +563,7 @@ void sweep(int A[], int size)
 
             rect.setSize(sf::Vector2f(x / size, A[i] * y / size));
             //rect.setPosition(i * (x / size), y - A[i] * y / size);
-            rect.setPosition(sf::Vector2f(i * (x / size), y - A[i] * y / size));
+            rect.setPosition(sf::Vector2f(i * (x/size), y - A[i] * y/size));
 
             if (i < j)
             {
@@ -731,6 +731,36 @@ int main()
 
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
+
+        // TEST: switching between sorts
+        for (int i=1; i<=6; i++) {
+            // Prep
+            v.resize(vsize = 33);
+            std::iota(std::begin(v), std::end(v), 0);
+            std::shuffle(v.begin(), v.end(), rng);
+            comp = 0;
+
+            switch(i)
+            {
+            case 1: strName = "Selection Sort"; mergeSort(&v[0], 0, v.size()-1); break;
+            case 2: strName = "Cocktail Sort"; CocktailSort(&v[0], v.size()); break;
+            case 3: strName = "Quick Sort"; quicksort(&v[0], 0, v.size()-1); break;
+            case 4: strName = "Wiki Sort"; WikiSort(&v[0], v.size(), compare); break;
+            case 5: strName = "Insertion Sort"; isort::isort1(v); break;
+            case 6: strName = "Radix Sort"; radixsort(&v[0], v.size()); break;
+            }
+
+            // Transition
+            sweep(&v[0], v.size());
+            printArrayBar(&v[0], v.size(), -1);
+            //sound.stop();
+            sound.setPitch(20.0f);
+            //usleep(2000000);
+            udelay(2000000);
+        }
+        ///////////////////////////////// 
+
+
 //goto start;
         // Prep
         v.resize(vsize = 333);
@@ -803,7 +833,7 @@ int main()
         udelay(2000000);
 start:
         // Prep
-        v.resize(vsize);
+        v.resize(vsize = 111);
         std::iota(std::begin(v), std::end(v), 0);
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Insertion Sort";
@@ -826,12 +856,13 @@ start:
         // isort2: 6.740170
         // isort3: 5.246783
         // So optimized version is faster.
-        v2 = v;
+        //v2 = v;
 
         strName = "Insertion Sort (isort1)";
         comp = 0;
         perf p1;
-        isort::isort1();
+        //isort::isort1();
+        isort::isort1(v);
         printf("isort1: %f\n", p1.elapsed());
 
         // v = v2;
