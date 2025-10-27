@@ -29,6 +29,11 @@ struct perf {
 };
 
 
+// NOTE: This pattern uses the “function-static” singleton idiom, so:
+// static sf::Sound sound(getBuffer()); is constructed only once, the first time getSound() is called.
+// On subsequent calls, it simply returns a reference to the same sf::Sound instance (no new object is created).
+// So the sound object is initialized once with the buffer from getBuffer().
+
 // Global-access buffer
 sf::SoundBuffer& getBuffer() {
     static sf::SoundBuffer buffer;
