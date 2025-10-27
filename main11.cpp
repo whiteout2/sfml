@@ -1,3 +1,4 @@
+// NOTE: This code requires SFML 2.x
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Window/Keyboard.hpp>
