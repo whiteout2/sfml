@@ -33,6 +33,7 @@ struct perf {
 // static sf::Sound sound(getBuffer()); is constructed only once, the first time getSound() is called.
 // On subsequent calls, it simply returns a reference to the same sf::Sound instance (no new object is created).
 // So the sound object is initialized once with the buffer from getBuffer().
+// NOTE: We no longer need this since we have global sound object working.
 
 // Global-access buffer
 sf::SoundBuffer& getBuffer() {
@@ -93,18 +94,25 @@ float y = window.getSize().y;
 sf::RectangleShape rect;
 
 // sound
-sf::SoundBuffer buffer;
+//sf::SoundBuffer buffer;
+//sf::Sound sound;
 
 // TEST: Why the hell can't we get a global sound object?
-// YESS: Works now for sound2
-sf::SoundBuffer buffer2("sound.wav");   // constructed directly from file
-//sf::Sound sound2; // no matching constructor for initialization of 'sf::Sound'
-//sound2(buffer2); // this declaration has no storage class or type specifier
-sf::Sound sound2(buffer2);              // constructed from buffer object
+// YESS: Works now for sound
+sf::SoundBuffer buffer("sound.wav");   // constructed directly from file
+sf::Sound sound(buffer);              // constructed from buffer object
+// NONO:
+//sf::Sound sound; // no matching constructor for initialization of 'sf::Sound'
+//sound(buffer); // this declaration has no storage class or type specifier
 
 // text
-sf::Font font;
+//sf::Font font;
 //sf::Text text;
+
+// TEST: And global text object also works
+sf::Font font("Menlo.ttc"); ;
+sf::Text text(font);
+
 
 void udelay (long usec) {
     perf p3;
@@ -118,7 +126,7 @@ void udelay (long usec) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
                 // getSound().stop();
-                sound2.stop();
+                sound.stop();
                 //window.close();
                 exit(0);
             }
@@ -139,7 +147,7 @@ void bogo_sort(int* a, int size) {
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
                 // getSound().stop();
-                sound2.stop();
+                sound.stop();
                 //window.close();
                 exit(0);
             }
@@ -195,7 +203,7 @@ void CocktailSort(int a[], int n)
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
                 // getSound().stop();
-                sound2.stop();
+                sound.stop();
                 //window.close();
                 exit(0);
             }
@@ -256,7 +264,7 @@ void merge(int arr[], int l, int m, int r)
         if (event->is<sf::Event::Closed>()) {
             //sound.stop();
             // getSound().stop();
-            sound2.stop();
+            sound.stop();
             //window.close();
             exit(0);
         }
@@ -333,7 +341,7 @@ void mergeSort(int arr[], int l, int r)
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
                 // getSound().stop();
-                sound2.stop();
+                sound.stop();
                 //window.close();
                 exit(0);
             }
@@ -433,7 +441,7 @@ void quicksort(int a[], int l, int r)
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
                 // getSound().stop();
-                sound2.stop();
+                sound.stop();
                 //window.close();
                 exit(0);
             }
@@ -498,7 +506,7 @@ void printArrayBar(int A[], int size, int r)
         if (event->is<sf::Event::Closed>()) {
             //sound.stop();
             // getSound().stop();
-            sound2.stop();
+            sound.stop();
             //window.close();
             exit(0);
         }
@@ -542,12 +550,10 @@ void printArrayBar(int A[], int size, int r)
             //sound.setBuffer(buffer);
             //sf::Sound sound(buffer);
 
-            // sound.setPitch(A[i] * 0.003f);
-            // sound.play();
+            sound.setPitch(A[i] * 0.003f);
+            sound.play();
             // getSound().setPitch(A[i] * 0.003f);
             // getSound().play();
-            sound2.setPitch(A[i] * 0.003f);
-            sound2.play();
         }
         window.draw(rect);
     }
@@ -565,7 +571,7 @@ void printArrayBar(int A[], int size, int r)
     //     //std::cerr << "Failed to load font\n";
     //     return;
     // }
-    sf::Text text(font); 
+    //sf::Text text(font); 
     text.setString(str); 
     text.setFillColor(sf::Color::White);
     text.setCharacterSize(18);
@@ -595,8 +601,8 @@ void sweep(int A[], int size)
             if (event->is<sf::Event::Closed>()) {
                 //sound.stop();
                 // getSound().stop();
-                sound2.stop();
                 //window.close();
+                sound.stop();
                 exit(0);
             }
         }
@@ -625,12 +631,10 @@ void sweep(int A[], int size)
                 //sound.setBuffer(buffer);
                 //sf::Sound sound(buffer);
 
-                // sound.setPitch(A[i] * 0.003f);
-                // sound.play();
+                sound.setPitch(A[i] * 0.003f);
+                sound.play();
                 // getSound().setPitch(A[i] * 0.003f);
                 // getSound().play();
-                sound2.setPitch(A[i] * 0.003f);
-                sound2.play();
             }
             window.draw(rect);
         }
@@ -640,9 +644,9 @@ void sweep(int A[], int size)
         //     return;
         // }
         //text.setFont(font);
-        sf::Text text(font);
+        //sf::Text text(font);
         //text.setString("Sweep");
-        text.setString(g_str);
+        //text.setString(g_str); // no longer necessary to pass g_str around
         text.setFillColor(sf::Color::White);
         text.setCharacterSize(18);
         text.setPosition(sf::Vector2f(20.0f, 10.0f));
@@ -710,15 +714,15 @@ int main()
 
     // sound
     //sf::SoundBuffer buffer;
-    if (!buffer.loadFromFile("sound.wav"))
-        return -1;
+    // if (!buffer.loadFromFile("sound.wav"))
+    //     return -1;
     //sf::Sound sound;
     //sound.setBuffer(buffer);
-    sf::Sound sound(buffer);
+    //sf::Sound sound(buffer);
 
     // TEST: Why the hell can't we get a global sound object?
-    //sound2(buffer); // call of an object of a class type without appropriate operator() or conversion functions to pointer-to-function type
-    //sound2.setBuffer(buffer);
+    //sound(buffer); // call of an object of a class type without appropriate operator() or conversion functions to pointer-to-function type
+    //sound.setBuffer(buffer);
 
     //sound.play();
 
@@ -730,12 +734,13 @@ int main()
     //if (!font.loadFromFile("Menlo.ttc"))
     //    return -1;
     //sf::Font font;
-    if (!font.openFromFile("Menlo.ttc")) {  // Use openFromFile in SFML 3
-        std::cerr << "Failed to load font\n";
-        return -1;
-    }
+    // NOTE: No longer necessary to load font if we have global
+    // if (!font.openFromFile("Menlo.ttc")) {  // Use openFromFile in SFML 3
+    //     std::cerr << "Failed to load font\n";
+    //     return -1;
+    // }
     //text.setFont(font);
-    sf::Text text(font);
+    //sf::Text text(font);
     text.setString("Merge Sort");
     //text.setFillColor(sf::Color::Green);
     text.setFillColor(sf::Color::White);
