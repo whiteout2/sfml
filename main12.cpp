@@ -742,7 +742,7 @@ int main()
 
             switch(i)
             {
-            case 1: strName = "Selection Sort"; mergeSort(&v[0], 0, v.size()-1); break;
+            case 1: strName = "Merge Sort"; mergeSort(&v[0], 0, v.size()-1); break;
             case 2: strName = "Cocktail Sort"; CocktailSort(&v[0], v.size()); break;
             case 3: strName = "Quick Sort"; quicksort(&v[0], 0, v.size()-1); break;
             case 4: strName = "Wiki Sort"; WikiSort(&v[0], v.size(), compare); break;
