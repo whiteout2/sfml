@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -35,7 +36,7 @@ sf::SoundBuffer& getBuffer() {
 
     if (!loaded) {
         if (!buffer.loadFromFile("sound.wav"))
-            //std::cerr << "Failed to load sound.wav\n";
+            std::cerr << "Failed to load sound.wav\n";
         loaded = true;
     }
 
@@ -702,7 +703,7 @@ int main()
     //    return -1;
     //sf::Font font;
     if (!font.openFromFile("Menlo.ttc")) {  // Use openFromFile in SFML 3
-        //std::cerr << "Failed to load font\n";
+        std::cerr << "Failed to load font\n";
         return -1;
     }
     //text.setFont(font);
