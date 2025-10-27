@@ -1,8 +1,8 @@
 # sfml
 
-https://github.com/user-attachments/assets/a6f198cb-dc7f-4c63-8d4f-886eef211795
-
 Sorting algos using [SFML](https://github.com/SFML/SFML)
+
+https://github.com/user-attachments/assets/a6f198cb-dc7f-4c63-8d4f-886eef211795
 
 ![wikisort](https://github.com/whiteout2/sfml/blob/main3/pics/wikisort.png?raw=true)
 
