@@ -775,7 +775,7 @@ int main()
 
         //bogo_sort(&v[0], v.size());
         //CocktailSort(&v[0], v.size());
-goto start;
+//goto start;
         // Prep
         v.resize(vsize = 1024);
         std::iota(std::begin(v), std::end(v), 0);
