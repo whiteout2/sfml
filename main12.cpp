@@ -504,7 +504,7 @@ void printArrayBar(int A[], int size, int r)
             rect.setFillColor(sf::Color::White);
 
             sound.setPitch(A[i] * 0.003f);
-            sound.play();
+            //sound.play();
         }
         window.draw(rect);
     }
@@ -575,7 +575,7 @@ void sweep(int A[], int size)
                 rect.setFillColor(sf::Color::Red);
 
                 sound.setPitch(A[i] * 0.003f);
-                sound.play();
+                //sound.play();
             }
             window.draw(rect);
         }
@@ -654,18 +654,11 @@ int main()
     //std::shuffle(vrect.begin(), vrect.end(), g);
 
     // sound
-    //sf::SoundBuffer buffer;
-    // if (!buffer.loadFromFile("sound.wav"))
-    //     return -1;
-    //sf::Sound sound;
-    //sound.setBuffer(buffer);
-    //sf::Sound sound(buffer);
-
-    // TEST: Why the hell can't we get a global sound object?
-    //sound(buffer); // call of an object of a class type without appropriate operator() or conversion functions to pointer-to-function type
-    //sound.setBuffer(buffer);
-
-    //sound.play();
+    // NOTE: Sound crackles if we keep calling sound.play(); in printArrayBar()
+    // We should only change its pitch and let it play continuously.
+    // So we start it here once and loop it. And the crackle is gone.
+    sound.setLooping(true);
+    sound.play();
 
     // text
     //if (!font.loadFromFile("Menlo.ttc"))
@@ -740,7 +733,7 @@ int main()
         //CocktailSort(&v[0], v.size());
 //goto start;
         // Prep
-        v.resize(vsize = 1024);
+        v.resize(vsize = 333);
         std::iota(std::begin(v), std::end(v), 0);
         std::shuffle(v.begin(), v.end(), rng); 
         strName = "Merge Sort";
@@ -751,10 +744,11 @@ int main()
         // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
-        sound.stop();
+        //sound.stop();
+        sound.setPitch(20.0f);
         //usleep(2000000);
         udelay(2000000);
-
+//start:
         // Prep
         v.resize(vsize = 111);
         std::shuffle(v.begin(), v.end(), rng); 
@@ -766,7 +760,8 @@ int main()
         // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
-        sound.stop();
+        //sound.stop();
+        sound.setPitch(20.0f);
         //usleep(2000000);
         udelay(2000000);
 //start:
@@ -782,7 +777,8 @@ int main()
         // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
-        sound.stop();
+        //sound.stop();
+        sound.setPitch(20.0f);
         //usleep(2000000);
         udelay(2000000);
 //start:
@@ -801,10 +797,11 @@ int main()
         // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
-        sound.stop();
+        //sound.stop();
+        sound.setPitch(20.0f);
         //usleep(2000000);
         udelay(2000000);
-//start:
+start:
         // Prep
         v.resize(vsize);
         std::iota(std::begin(v), std::end(v), 0);
@@ -854,7 +851,8 @@ int main()
         // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
-        sound.stop();
+        //sound.stop();
+        sound.setPitch(20.0f);
         //usleep(2000000);
         udelay(2000000);
 //start:
@@ -870,7 +868,8 @@ int main()
         // Transition
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
-        sound.stop();
+        //sound.stop();
+        sound.setPitch(20.0f);
         udelay(2000000);
 
 
