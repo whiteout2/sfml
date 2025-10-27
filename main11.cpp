@@ -47,7 +47,8 @@ int comp = 0;
 #include "radix.h"
 
 //sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
-sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+//sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
+sf::RenderWindow window(sf::VideoMode({1280, 720}), "SFML works!");
 
 float x = window.getSize().x;
 float y = window.getSize().y;
