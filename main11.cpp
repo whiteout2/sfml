@@ -1,4 +1,9 @@
 // NOTE: This code requires SFML 2.x
+// In tasks.json, add these lines:
+// "-I/opt/homebrew/opt/sfml@2/include",
+// "-L/opt/homebrew/opt/sfml@2/lib",
+// In c_cpp_properties.json, add this line:
+// "/opt/homebrew/opt/sfml@2/include"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Window/Keyboard.hpp>
