@@ -1,13 +1,12 @@
-// NOTE: This code requires SFML 3.x
+// NOTE: This code requires SFML 2.x
 // In tasks.json, add these lines:
-// "-I/opt/homebrew/include",
-// "-L/opt/homebrew/lib",
+// "-I/opt/homebrew/opt/sfml@2/include",
+// "-L/opt/homebrew/opt/sfml@2/lib",
 // In c_cpp_properties.json, add this line:
-// "/opt/homebrew/include"
+// "/opt/homebrew/opt/sfml@2/include"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <random>
@@ -29,27 +28,6 @@ struct perf {
 };
 
 
-// Global-access buffer
-sf::SoundBuffer& getBuffer() {
-    static sf::SoundBuffer buffer;
-    static bool loaded = false;
-
-    if (!loaded) {
-        if (!buffer.loadFromFile("sound.wav"))
-            std::cerr << "Failed to load sound.wav\n";
-        loaded = true;
-    }
-
-    return buffer;
-}
-
-// Global-access sound
-sf::Sound& getSound() {
-    static sf::Sound sound(getBuffer());
-    return sound;
-}
-
-
 
 // executes in-place bogo sort on a given array
 static void bogo_sort(int* a, int size);
@@ -69,8 +47,6 @@ std::vector<int> v2;
 std::string strName = "Merge Sort";
 int comp = 0;
 
-std::string g_str = "";
-
 // Ugly but handy
 //#include "WikiSort.h"
 //#include "isort.h"
@@ -87,24 +63,21 @@ sf::RectangleShape rect;
 
 // sound
 sf::SoundBuffer buffer;
-//sf::Sound sound;
+sf::Sound sound;
 
 // text
 sf::Font font;
-//sf::Text text;
+sf::Text text;
 
 void udelay (long usec) {
     perf p3;
     while (p3.elapsed() < usec/1000000.0f && window.isOpen())
     {
-        //sf::Event event;
-        //while (window.pollEvent(event))
-        while (const std::optional event = window.pollEvent())
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
+            if (event.type == sf::Event::Closed) {
                 //sound.stop();
-                getSound().stop();
                 //window.close();
                 exit(0);
             }
@@ -117,14 +90,11 @@ void udelay (long usec) {
 void bogo_sort(int* a, int size) {
     while (!is_sorted(a, size) && window.isOpen()) {
 
-        //sf::Event event;
-        //while (window.pollEvent(event))
-        while (const std::optional event = window.pollEvent())
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
+            if (event.type == sf::Event::Closed) {
                 //sound.stop();
-                getSound().stop();
                 //window.close();
                 exit(0);
             }
@@ -172,14 +142,11 @@ void CocktailSort(int a[], int n)
         // a previous iteration.
         swapped = false;
 
-        //sf::Event event;
-        //while (window.pollEvent(event))
-        while (const std::optional event = window.pollEvent())
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
+            if (event.type == sf::Event::Closed) {
                 //sound.stop();
-                getSound().stop();
                 //window.close();
                 exit(0);
             }
@@ -232,14 +199,11 @@ void CocktailSort(int a[], int n)
 // Second subarray is arr[m+1..r]
 void merge(int arr[], int l, int m, int r)
 {
-    //sf::Event event;
-    //while (window.pollEvent(event))
-    while (const std::optional event = window.pollEvent())
+    sf::Event event;
+    while (window.pollEvent(event))
     {
-        //if (event.type == sf::Event::Closed) {
-        if (event->is<sf::Event::Closed>()) {
+        if (event.type == sf::Event::Closed) {
             //sound.stop();
-            getSound().stop();
             //window.close();
             exit(0);
         }
@@ -308,14 +272,11 @@ void mergeSort(int arr[], int l, int r)
     if (l < r && window.isOpen()) {
         int m = l + (r - l) / 2;
 
-        //sf::Event event;
-        //while (window.pollEvent(event))
-        while (const std::optional event = window.pollEvent())
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
+            if (event.type == sf::Event::Closed) {
                 //sound.stop();
-                getSound().stop();
                 //window.close();
                 exit(0);
             }
@@ -407,14 +368,11 @@ void quicksort(int a[], int l, int r)
 {
     if (window.isOpen()) 
     {
-        //sf::Event event;
-        //while (window.pollEvent(event))
-        while (const std::optional event = window.pollEvent())
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
+            if (event.type == sf::Event::Closed) {
                 //sound.stop();
-                getSound().stop();
                 //window.close();
                 exit(0);
             }
@@ -471,14 +429,11 @@ uint32_t rgb(double ratio)
 
 void printArrayBar(int A[], int size, int r)
 {
-    //sf::Event event;
-    //while (window.pollEvent(event))
-    while (const std::optional event = window.pollEvent())
+    sf::Event event;
+    while (window.pollEvent(event))
     {
-        //if (event.type == sf::Event::Closed) {
-        if (event->is<sf::Event::Closed>()) {
+        if (event.type == sf::Event::Closed) {
             //sound.stop();
-            getSound().stop();
             //window.close();
             exit(0);
         }
@@ -503,9 +458,7 @@ void printArrayBar(int A[], int size, int r)
         //rect.setPosition(i*(1024.0f/size), 768 - A[i] * 768.0f/size);
 
         rect.setSize(sf::Vector2f(x/size, A[i] * y/size));
-        //rect.setPosition(i*(x/size), y - A[i] * y/size);
-        rect.setPosition(sf::Vector2f(i * (x / size), y - A[i] * y / size));
-
+        rect.setPosition(i*(x/size), y - A[i] * y/size);
 
         // static int r = 0;
         // r++;
@@ -516,16 +469,8 @@ void printArrayBar(int A[], int size, int r)
             //rect.setFillColor(sf::Color::Red);
             rect.setFillColor(sf::Color::White);
 
-            // if (!buffer.loadFromFile("sound.wav"))
-            //     return;
-            //sf::Sound sound;
-            //sound.setBuffer(buffer);
-            //sf::Sound sound(buffer);
-
-            // sound.setPitch(A[i] * 0.003f);
-            // sound.play();
-            getSound().setPitch(A[i] * 0.003f);
-            getSound().play();
+            sound.setPitch(A[i] * 0.003f);
+            sound.play();
         }
         window.draw(rect);
     }
@@ -535,21 +480,10 @@ void printArrayBar(int A[], int size, int r)
     std::string str1 = strName + "\n";
     std::string str2 = "Numbers: " + std::to_string(vsize) + "\n\n";
     std::string str3 = "Comparisons: " + std::to_string(comp);
-    std::string str = str1 + str2 + str3;
-    g_str = str;
-    
-    // sf::Font font;
-    // if (!font.openFromFile("Menlo.ttc")) {  // Use openFromFile in SFML 3
-    //     //std::cerr << "Failed to load font\n";
-    //     return;
-    // }
-    sf::Text text(font); 
-    text.setString(str); 
-    text.setFillColor(sf::Color::White);
-    text.setCharacterSize(18);
-    text.setPosition(sf::Vector2f(20.0f, 10.0f));
-
+    std::string str = str1 + str2 + str3;;
+    text.setString(str);
     window.draw(text);
+
     window.display();
 
     // NOTE: we get stuck in the loop/recursion for high usleep
@@ -565,14 +499,11 @@ void sweep(int A[], int size)
     for (int j = 0; j < size; j++)
     {
         // Below is similar to printArrayBar but with green color
-        //sf::Event event;
-        //while (window.pollEvent(event))
-        while (const std::optional event = window.pollEvent())
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
+            if (event.type == sf::Event::Closed) {
                 //sound.stop();
-                getSound().stop();
                 //window.close();
                 exit(0);
             }
@@ -584,8 +515,7 @@ void sweep(int A[], int size)
             rect.setFillColor(sf::Color::White);
 
             rect.setSize(sf::Vector2f(x / size, A[i] * y / size));
-            //rect.setPosition(i * (x / size), y - A[i] * y / size);
-            rect.setPosition(sf::Vector2f(i * (x / size), y - A[i] * y / size));
+            rect.setPosition(i * (x / size), y - A[i] * y / size);
 
             if (i < j)
             {
@@ -596,33 +526,11 @@ void sweep(int A[], int size)
             {
                 rect.setFillColor(sf::Color::Red);
 
-                // if (!buffer.loadFromFile("sound.wav"))
-                //     return;
-                //sf::Sound sound;
-                //sound.setBuffer(buffer);
-                //sf::Sound sound(buffer);
-
-                // sound.setPitch(A[i] * 0.003f);
-                // sound.play();
-
-                getSound().setPitch(A[i] * 0.003f);
-                getSound().play();
+                sound.setPitch(A[i] * 0.003f);
+                sound.play();
             }
             window.draw(rect);
         }
-        // sf::Font font;
-        // if (!font.openFromFile("Menlo.ttc")) {  // Use openFromFile in SFML 3
-        //     //std::cerr << "Failed to load font\n";
-        //     return;
-        // }
-        //text.setFont(font);
-        sf::Text text(font);
-        //text.setString("Sweep");
-        text.setString(g_str);
-        text.setFillColor(sf::Color::White);
-        text.setCharacterSize(18);
-        text.setPosition(sf::Vector2f(20.0f, 10.0f));
-
         window.draw(text);
         window.display();
 
@@ -632,7 +540,6 @@ void sweep(int A[], int size)
         }
     }
 }
-
 
 
 int main()
@@ -689,31 +596,17 @@ int main()
     if (!buffer.loadFromFile("sound.wav"))
         return -1;
     //sf::Sound sound;
-    //sound.setBuffer(buffer);
-    sf::Sound sound(buffer);
-
-    //sound.play();
-
-    // Play the sound
-    //getSound().setPitch(1.0f);
-    //getSound().play();
+    sound.setBuffer(buffer);
 
     // text
-    //if (!font.loadFromFile("Menlo.ttc"))
-    //    return -1;
-    //sf::Font font;
-    if (!font.openFromFile("Menlo.ttc")) {  // Use openFromFile in SFML 3
-        std::cerr << "Failed to load font\n";
+    if (!font.loadFromFile("Menlo.ttc"))
         return -1;
-    }
-    //text.setFont(font);
-    sf::Text text(font);
+    text.setFont(font);
     text.setString("Merge Sort");
     //text.setFillColor(sf::Color::Green);
     text.setFillColor(sf::Color::White);
     text.setCharacterSize(18);
     text.setPosition(sf::Vector2f(20.0f, 10.0f));
-    
 
 
     // TODO: Even though we catch all Closed events in all the sort loops and recursions
@@ -730,12 +623,10 @@ int main()
     // en window close event.
     while (window.isOpen())
     {
-        //sf::Event event;
-        //while (window.pollEvent(event))
-        while (const std::optional event = window.pollEvent())
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
+            if (event.type == sf::Event::Closed) {
                 sound.stop();
                 window.close();
                 return 0;
