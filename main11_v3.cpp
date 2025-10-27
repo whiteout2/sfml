@@ -77,8 +77,10 @@ int comp = 0;
 std::string g_str = "";
 
 // Ugly but handy
-//#include "WikiSort.h"
-//#include "isort.h"
+#include "WikiSort.h"
+Comparison compare = TestCompare;
+
+#include "isort.h"
 #include "radix.h"
 
 //sf::RenderWindow window(sf::VideoMode(1024, 768), "SFML works!");
@@ -831,7 +833,7 @@ goto start;
         comp = 0;
 
         //Comparison compare = TestCompare;
-        //WikiSort(&v[0], v.size(), compare);
+        WikiSort(&v[0], v.size(), compare);
 
         // Transition
         sweep(&v[0], v.size());
@@ -866,11 +868,11 @@ goto start;
         // So optimized version is faster.
         v2 = v;
 
-        // strName = "Insertion Sort (isort1)";
-        // comp = 0;
-        // perf p1;
-        // isort::isort1();
-        // printf("isort1: %f\n", p1.elapsed());
+        strName = "Insertion Sort (isort1)";
+        comp = 0;
+        perf p1;
+        isort::isort1();
+        printf("isort1: %f\n", p1.elapsed());
 
         // v = v2;
         // strName = "Insertion Sort (isort2)";
@@ -892,7 +894,7 @@ goto start;
         sound.stop();
         //usleep(2000000);
         udelay(2000000);
-start:
+//start:
         // Prep
         v.resize(vsize = 1500);
         std::iota(std::begin(v), std::end(v), 0);
