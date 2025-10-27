@@ -13,8 +13,42 @@
 #include <random>
 #include <unistd.h>
 #include <chrono>
+#include <string>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <format>
+
+#include "HighResTimer.hpp"
 
 
+HighResTimer timer;
+
+// Format seconds as M:SS.t or M:SS
+std::string formatSecondsToClock(double seconds, bool showTenths = false) {
+    if (seconds < 0) seconds = 0;
+
+    int totalSeconds = static_cast<int>(seconds);
+    int minutes = totalSeconds / 60;
+    int secs = totalSeconds % 60;
+
+    std::ostringstream oss;
+    oss << minutes << ":" << std::setw(2) << std::setfill('0') << secs;
+
+    if (showTenths) {
+        int tenths = static_cast<int>((seconds - totalSeconds) * 10);
+        oss << "." << tenths;
+    }
+
+    return oss.str();
+}
+
+// Format milliseconds with three decimal places
+std::string formattedTime(double ms) {
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(3) << ms;
+    return oss.str();
+}
 
 
 
@@ -459,6 +493,8 @@ uint32_t rgb(double ratio)
 
 void printArrayBar(int A[], int size, int r)
 {
+    timer.pause();
+
     //sf::Event event;
     //while (window.pollEvent(event))
     while (const std::optional event = window.pollEvent())
@@ -518,7 +554,7 @@ void printArrayBar(int A[], int size, int r)
     std::string str1 = strName + "\n";
     std::string str2 = "Numbers: " + std::to_string(vsize) + "\n";
     std::string str3 = "Comparisons: " + std::to_string(comp) + "\n";
-    std::string str4 = "Time: " + std::to_string(p0.elapsed()) + " sec\n\n";
+    std::string str4 = "Visual Time: " + formatSecondsToClock(p0.elapsed()) + "\n" + "Sort Time: " + formattedTime(timer.elapsedMilliseconds()) + " ms\n\n";
     str = str1 + str2 + str3 + str4;
     // Transition
     if (r == -1) {
@@ -548,6 +584,8 @@ void printArrayBar(int A[], int size, int r)
     if (window.isOpen()) {
         usleep(2000);
     }
+
+    timer.resume();
 }
 
 // Sweeps the array after sort is finished
@@ -752,6 +790,7 @@ int main()
             std::shuffle(v.begin(), v.end(), rng);
             comp = 0;
             p0.start_ = std::chrono::steady_clock::now();
+            timer.start();
 
             switch(i)
             {
@@ -764,6 +803,7 @@ int main()
             }
 
             // Transition
+            timer.stop();
             sweep(&v[0], v.size());
             printArrayBar(&v[0], v.size(), -1);
             //sound.stop();
@@ -782,10 +822,12 @@ int main()
         strName = "Merge Sort";
         comp = 0;
         p0.start_ = std::chrono::steady_clock::now();
+        timer.start();
 
         mergeSort(&v[0], 0, v.size()-1);
 
         // Transition
+        timer.stop();
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         //sound.stop();
@@ -799,10 +841,12 @@ int main()
         strName = "Cocktail Sort";
         comp = 0;
         p0.start_ = std::chrono::steady_clock::now();
+        timer.start();
 
         CocktailSort(&v[0], v.size());
 
         // Transition
+        timer.stop();
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         //sound.stop();
@@ -817,10 +861,12 @@ int main()
         strName = "Quick Sort";
         comp = 0;
         p0.start_ = std::chrono::steady_clock::now();
+        timer.start();
 
         quicksort(&v[0], 0, v.size()-1);
 
         // Transition
+        timer.stop();
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         //sound.stop();
@@ -837,11 +883,13 @@ int main()
         //udelay(2000000);
         comp = 0;
         p0.start_ = std::chrono::steady_clock::now();
+        timer.start();
 
         //Comparison compare = TestCompare;
         WikiSort(&v[0], v.size(), compare);
 
         // Transition
+        timer.stop();
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         //sound.stop();
@@ -858,6 +906,7 @@ start:
         //udelay(2000000);
         comp = 0;
         p0.start_ = std::chrono::steady_clock::now();
+        timer.start();
 
         // Let's time 'em (using the same vector for fairness)
         // NOTE: we are getting:
@@ -876,13 +925,14 @@ start:
         // So optimized version is faster.
         //v2 = v;
 
-        strName = "Insertion Sort (isort1)";
-        comp = 0;
-        p0.start_ = std::chrono::steady_clock::now();
-        perf p1;
+        // strName = "Insertion Sort (isort1)";
+        // comp = 0;
+        // p0.start_ = std::chrono::steady_clock::now();
+        // perf p1;
+
         //isort::isort1();
         isort::isort1(v);
-        printf("isort1: %f\n", p1.elapsed());
+        //printf("isort1: %f\n", p1.elapsed());
 
         // v = v2;
         // strName = "Insertion Sort (isort2)";
@@ -899,6 +949,7 @@ start:
         // printf("isort3: %f\n", p3.elapsed());
 
         // Transition
+        timer.stop();
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         //sound.stop();
@@ -913,10 +964,12 @@ start:
         strName = "Radix Sort (LSD)";
         comp = 0;
         p0.start_ = std::chrono::steady_clock::now();
+        timer.start();
 
         radixsort(&v[0], v.size());
 
         // Transition
+        timer.stop();
         sweep(&v[0], v.size());
         printArrayBar(&v[0], v.size(), -1);
         //sound.stop();
