@@ -29,33 +29,6 @@ struct perf {
 };
 
 
-// NOTE: This pattern uses the “function-static” singleton idiom, so:
-// static sf::Sound sound(getBuffer()); is constructed only once, the first time getSound() is called.
-// On subsequent calls, it simply returns a reference to the same sf::Sound instance (no new object is created).
-// So the sound object is initialized once with the buffer from getBuffer().
-// NOTE: We no longer need this since we have global sound object working.
-
-// Global-access buffer
-sf::SoundBuffer& getBuffer() {
-    static sf::SoundBuffer buffer;
-    static bool loaded = false;
-
-    if (!loaded) {
-        if (!buffer.loadFromFile("sound.wav"))
-            std::cerr << "Failed to load sound.wav\n";
-        loaded = true;
-    }
-
-    return buffer;
-}
-
-// Global-access sound
-sf::Sound& getSound() {
-    static sf::Sound sound(getBuffer());
-    return sound;
-}
-
-
 
 // executes in-place bogo sort on a given array
 static void bogo_sort(int* a, int size);
@@ -124,8 +97,6 @@ void udelay (long usec) {
         {
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
-                //sound.stop();
-                // getSound().stop();
                 sound.stop();
                 //window.close();
                 exit(0);
@@ -145,8 +116,6 @@ void bogo_sort(int* a, int size) {
         {
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
-                //sound.stop();
-                // getSound().stop();
                 sound.stop();
                 //window.close();
                 exit(0);
@@ -201,8 +170,6 @@ void CocktailSort(int a[], int n)
         {
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
-                //sound.stop();
-                // getSound().stop();
                 sound.stop();
                 //window.close();
                 exit(0);
@@ -262,8 +229,6 @@ void merge(int arr[], int l, int m, int r)
     {
         //if (event.type == sf::Event::Closed) {
         if (event->is<sf::Event::Closed>()) {
-            //sound.stop();
-            // getSound().stop();
             sound.stop();
             //window.close();
             exit(0);
@@ -339,8 +304,6 @@ void mergeSort(int arr[], int l, int r)
         {
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
-                //sound.stop();
-                // getSound().stop();
                 sound.stop();
                 //window.close();
                 exit(0);
@@ -439,8 +402,6 @@ void quicksort(int a[], int l, int r)
         {
             //if (event.type == sf::Event::Closed) {
             if (event->is<sf::Event::Closed>()) {
-                //sound.stop();
-                // getSound().stop();
                 sound.stop();
                 //window.close();
                 exit(0);
@@ -504,8 +465,6 @@ void printArrayBar(int A[], int size, int r)
     {
         //if (event.type == sf::Event::Closed) {
         if (event->is<sf::Event::Closed>()) {
-            //sound.stop();
-            // getSound().stop();
             sound.stop();
             //window.close();
             exit(0);
@@ -544,16 +503,8 @@ void printArrayBar(int A[], int size, int r)
             //rect.setFillColor(sf::Color::Red);
             rect.setFillColor(sf::Color::White);
 
-            // if (!buffer.loadFromFile("sound.wav"))
-            //     return;
-            //sf::Sound sound;
-            //sound.setBuffer(buffer);
-            //sf::Sound sound(buffer);
-
             sound.setPitch(A[i] * 0.003f);
             sound.play();
-            // getSound().setPitch(A[i] * 0.003f);
-            // getSound().play();
         }
         window.draw(rect);
     }
@@ -598,11 +549,9 @@ void sweep(int A[], int size)
         while (const std::optional event = window.pollEvent())
         {
             //if (event.type == sf::Event::Closed) {
-            if (event->is<sf::Event::Closed>()) {
-                //sound.stop();
-                // getSound().stop();
-                //window.close();
+            if (event->is<sf::Event::Closed>()) {                
                 sound.stop();
+                //window.close();
                 exit(0);
             }
         }
@@ -625,16 +574,8 @@ void sweep(int A[], int size)
             {
                 rect.setFillColor(sf::Color::Red);
 
-                // if (!buffer.loadFromFile("sound.wav"))
-                //     return;
-                //sf::Sound sound;
-                //sound.setBuffer(buffer);
-                //sf::Sound sound(buffer);
-
                 sound.setPitch(A[i] * 0.003f);
                 sound.play();
-                // getSound().setPitch(A[i] * 0.003f);
-                // getSound().play();
             }
             window.draw(rect);
         }
@@ -725,10 +666,6 @@ int main()
     //sound.setBuffer(buffer);
 
     //sound.play();
-
-    // Play the sound
-    //getSound().setPitch(1.0f);
-    //getSound().play();
 
     // text
     //if (!font.loadFromFile("Menlo.ttc"))
